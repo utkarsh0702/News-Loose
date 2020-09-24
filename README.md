@@ -1,4 +1,4 @@
-# NewsLoose
+# News-Loose
 
 A new Flutter project.
 
