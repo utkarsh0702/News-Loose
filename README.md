@@ -1,4 +1,4 @@
-# News-Loose
+# NewsLoose
 
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/vivek9828/News-Loose) ![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/vivek9828/News-Loose) ![GitHub last commit](https://img.shields.io/github/last-commit/vivek9828/News-Loose)  ![GitHub issues](https://img.shields.io/github/issues-raw/vivek9828/News-Loose) [![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.png?v=103)](https://github.com/vivek9828/News-Loose) [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.png?v=103)](https://opensource.org/licenses/mit-license.php)
 
