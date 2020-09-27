@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:News-Loose/screens/registration.dart';
-import 'package:News-Loose/screens/signup.dart';
-import 'package:News-Loose/screens/login.dart';
+import 'package:NewsLoose/screens/registration.dart';
+import 'package:NewsLoose/screens/signup.dart';
+import 'package:NewsLoose/screens/login.dart';
 
 void main(){
   runApp(myApp());

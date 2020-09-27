@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "852940933217",
+    "firebase_url": "https://news-loose.firebaseio.com",
+    "project_id": "news-loose",
+    "storage_bucket": "news-loose.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:852940933217:android:f87e76edc4caf5f5bac220",
+        "android_client_info": {
+          "package_name": "com.example.NewsLoose"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "852940933217-2m2dgpebju0vfepjc4onu17cl6b5q49s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCSZzMSUDjMozq-AW9fA-b0KC6i2sHhVo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "852940933217-2m2dgpebju0vfepjc4onu17cl6b5q49s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
