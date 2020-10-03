@@ -212,7 +212,7 @@ class _SignUpState extends State<SignUp> {
                               //       UserUpdateInfo updateUser = UserUpdateInfo();
                               //       updateUser.displayName= name;
                               //       user.updateProfile(updateUser);
-                                    Navigator.pushNamed(context, '/home');
+                                    Navigator.pushNamed(context, '/confirm');
                             //       }
                             //   }catch(e){
                             //     print(e);
