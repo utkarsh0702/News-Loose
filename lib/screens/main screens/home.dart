@@ -1,3 +1,5 @@
+import 'package:NewsLoose/helper/article.dart';
+import 'package:NewsLoose/helper/news.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -72,6 +74,25 @@ Widget tile(String image, String title, String desc){
   );
 }
 
+@override
+void initState() { 
+  super.initState();
+  getNews();
+}
+
+//--------------------Tile Articles------------------------//
+List<Article> article= List<Article>();
+bool _loading= true;
+
+getNews() async{
+  News news= News();
+  await news.getNews();
+  article= news.news;
+  setState(() {
+    _loading = false;
+  });
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,20 +121,86 @@ Widget tile(String image, String title, String desc){
         ),
         elevation: 0.0,
       ),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: List.generate(6, (index) => categoryContainer(
-                  images[index], names[index]
-                )),
+      body: _loading ? Center(
+        child: Container(
+          child: CircularProgressIndicator(),
+        ),
+      ) :
+       SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: List.generate(6, (index) => categoryContainer(
+                    images[index], names[index]
+                  )),
+                ),
               ),
-            )
-          ],
+              //Blogs
+              Container(
+                padding: EdgeInsets.only(top: 20.0),
+                child: ListView.builder(
+                  controller: ScrollController(keepScrollOffset: true),
+                  itemCount: article.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index){
+                    return BlogTile(
+                      imageUrl: article[index].url_to_image,
+                      title: article[index].title,
+                      desc: article[index].description,
+                    );
+                  }
+                  ),
+              )
+            ],
+          ),
         )
         ),
+    );
+  }
+}
+
+// ignore: must_be_immutable
+class BlogTile extends StatelessWidget {
+
+  BlogTile({
+    @required this.imageUrl,
+    @required this.title,
+    @required this.desc,
+  });
+
+  String imageUrl, title, desc;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Card(
+        elevation: 10.0,
+        child: Container(
+          child:Column(
+            children: [
+              Image.network(imageUrl),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0
+                  ),
+                  ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left:8.0, right:8.0, bottom:8.0),
+                child: Text(desc),
+              )
+            ],
+            )
+        ),
+      ),
     );
   }
 }
