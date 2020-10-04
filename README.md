@@ -4,6 +4,35 @@
 
 A Simple News App built with Flutter with uses News API to display news on the Home Page. News categories ranges from tech to entertainment. You can choose news category displayed on category page. App is providing a smooth and amazing design with gestures effect and smooth experience with android and iOS both platform.
 
+## Screenshots
+
+  Splash Screen            |   Main Page       
+:-------------------------:|:-------------------------:
+![](https://github.com/vivek9828/NewsLoose/blob/vivek/screenshots/splash%20screen.png)|![](https://github.com/vivek9828/NewsLoose/blob/vivek/screenshots/reg.gif)
+
+ Login Page                |   SignUp Page
+:-------------------------:|:-------------------------:
+![](https://github.com/vivek9828/NewsLoose/blob/vivek/screenshots/login.gif)|![](https://github.com/vivek9828/NewsLoose/blob/vivek/screenshots/signup.gif)
+
+## Directory Structure
+```
+lib
+│─── main.dart    
+│─── helper  
+|      │── article.dart
+|      └── news.dart    
+└─── screens
+       │── main screens
+       |      │── article_page.dart
+       |      │── category_page.dart
+       |      └── home.dart  
+       │── confirmation_page.dart
+       │── login.dart
+       │── registration.dart
+       │── splash_screen.dart
+       └── signup.dart
+```
+
 ## Created & Maintained By
 
 * Vivek Saxena 
