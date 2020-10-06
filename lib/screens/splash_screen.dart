@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -15,7 +16,38 @@ class _SplashState extends State<Splash> {
   }
 
   void finished(){
-    Navigator.pushNamed(context, '/reg');
+    _checkInternetConnectivity();
+  }
+
+   _checkInternetConnectivity() async{
+      try {
+          final result = await InternetAddress.lookup('google.com');
+          if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+            Navigator.pushNamed(context, '/reg');
+          }
+        } on SocketException catch (_) {
+          _showDialog('No Internet', 'You are not connected to network.');
+        }
+    }
+
+  _showDialog(title, text){
+    showDialog(
+      context: context,
+      builder: (context){
+        return AlertDialog(
+          title: Text(title),
+          content: Text(text),
+          actions: [
+            FlatButton(
+              onPressed: (){
+                Navigator.of(context).pop();
+              }, 
+              child: Text('Ok'),
+              )
+          ],
+        );
+      }
+    );
   }
 
   @override
@@ -34,7 +66,6 @@ class _SplashState extends State<Splash> {
                     fontSize: 30.0,
                   ),
                   ),
-                  SizedBox(width: 10.0,),
                   Text(
                   'LOOSE',
                   style: TextStyle(
