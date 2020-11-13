@@ -67,7 +67,7 @@ Widget tile(String image, String title, String desc){
           title
         ),
         Text(
-          desc
+          desc, style: TextStyle(fontSize: 15),
         )
       ],
     ),
