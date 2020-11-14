@@ -2,6 +2,8 @@ import 'package:NewsLoose/helper/article.dart';
 import 'package:NewsLoose/helper/news.dart';
 import 'package:flutter/material.dart';
 
+import 'article_page.dart';
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -57,23 +59,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-//-------------------------------- Home Screen Tiles ---------------------------
-Widget tile(String image, String title, String desc){
-  return Container(
-    child: Column(
-      children: [
-        Image.asset(image),
-        Text(
-          title
-        ),
-        Text(
-          desc, style: TextStyle(fontSize: 15),
-        )
-      ],
-    ),
-  );
-}
-
 @override
 void initState() { 
   super.initState();
@@ -97,6 +82,7 @@ getNews() async{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Container(),
         backgroundColor: Colors.white,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -150,6 +136,7 @@ getNews() async{
                       imageUrl: article[index].url_to_image,
                       title: article[index].title,
                       desc: article[index].description,
+                      url: article[index].url,
                     );
                   }
                   ),
@@ -162,6 +149,7 @@ getNews() async{
   }
 }
 
+//-------------------------------- Home Screen Tiles ---------------------------//
 // ignore: must_be_immutable
 class BlogTile extends StatelessWidget {
 
@@ -169,36 +157,50 @@ class BlogTile extends StatelessWidget {
     @required this.imageUrl,
     @required this.title,
     @required this.desc,
+    @required this.url,
   });
 
-  String imageUrl, title, desc;
+  String imageUrl, title, desc, url;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Card(
-        elevation: 10.0,
-        child: Container(
-          child:Column(
-            children: [
-              Image.network(imageUrl),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  title,
+    return GestureDetector(
+      onTap: (){
+        Navigator.push(context, MaterialPageRoute(
+          builder: (context) => ArticlePage(
+            blogUrl: url,
+          )
+          ));
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Card(
+          elevation: 10.0,
+          child: Container(
+            child:Column(
+              children: [
+                Image.network(imageUrl),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0
+                    ),
+                    ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left:8.0, right:8.0, bottom:8.0),
+                  child: Text(desc,
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0
+                      fontSize: 15.0
+                    ),
                   ),
-                  ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left:8.0, right:8.0, bottom:8.0),
-                child: Text(desc),
+                )
+              ],
               )
-            ],
-            )
+          ),
         ),
       ),
     );
