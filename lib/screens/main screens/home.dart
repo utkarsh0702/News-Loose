@@ -1,7 +1,7 @@
 import 'package:NewsLoose/helper/article.dart';
 import 'package:NewsLoose/helper/news.dart';
+import 'package:NewsLoose/screens/main%20screens/category_page.dart';
 import 'package:flutter/material.dart';
-
 import 'article_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,22 +12,29 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   List<String> images=[
-    'assets/images/national.jpg',
-    'assets/images/world.jpg',
-    'assets/images/nature.jpg',
+    'assets/images/business.png',
+    'assets/images/entertainment.jpg',
+    'assets/images/general.jpg',
+    'assets/images/health.jpg',
+    'assets/images/science.jpg',
     'assets/images/sports.jpg',
-    'assets/images/covid.jpg',
-    'assets/images/entertainment.jpg'
+    'assets/images/technology.jpg'
   ];
 
   List<String> names=[
-    'National', 'World', 'Nature', 'Sports', 'COVID', 'Entertainment'
+    'Business','Entertainment','General','Health','Science','Sports','Technology'
   ];
 
-//------------------------------------ Horizontal Category Slider ---------------------------
+//------------------------------------ Horizontal Category Tile Slider ---------------------------
   Widget categoryContainer(String image, String name){
     return GestureDetector(
-      onTap: (){},
+      onTap: (){
+        Navigator.push(context, MaterialPageRoute(
+          builder: (context) => CategoryPage(
+            category: name.toLowerCase(),
+          )
+        ));
+      },
       child: Padding(
         padding: const EdgeInsets.only(top:10.0, bottom:10.0, left:5.0, right: 5.0),
         child: Card(
@@ -119,7 +126,7 @@ getNews() async{
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: List.generate(6, (index) => categoryContainer(
+                  children: List.generate(7, (index) => categoryContainer(
                     images[index], names[index]
                   )),
                 ),
