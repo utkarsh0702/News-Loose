@@ -69,7 +69,7 @@ class _RegPageState extends State<RegPage> {
                     width: size.width - 70,
                       child: MaterialButton(
                         onPressed: (){
-                          Navigator.pushNamed(context, '/signup');
+                          Navigator.pushNamed(context, '/login');
                         },
                         color: Theme.of(context).primaryColor,
                         splashColor: Theme.of(context).accentColor,

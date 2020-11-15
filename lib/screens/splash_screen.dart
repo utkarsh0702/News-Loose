@@ -23,7 +23,7 @@ class _SplashState extends State<Splash> {
       try {
           final result = await InternetAddress.lookup('google.com');
           if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-            Navigator.pushNamed(context, '/home');
+            Navigator.pushNamed(context, '/reg');
           }
         } on SocketException catch (_) {
           _showDialog('No Internet', 'You are not connected to network.');

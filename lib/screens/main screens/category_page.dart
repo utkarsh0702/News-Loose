@@ -67,7 +67,7 @@ getCategoryNews() async{
        SafeArea(
         child: SingleChildScrollView(
           child:Container(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.only(top: 20.0),
             child: ListView.builder(
               controller: ScrollController(keepScrollOffset: true),
               itemCount: article.length,
