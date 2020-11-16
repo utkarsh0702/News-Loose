@@ -25,6 +25,7 @@ class _ArticlePageState extends State<ArticlePage> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Spacer(flex:1),
             Text(
               'News',
               style: TextStyle(
@@ -39,6 +40,7 @@ class _ArticlePageState extends State<ArticlePage> {
                 fontWeight: FontWeight.bold
               ),
             ),
+            Spacer(flex:2),
           ],
         ),
         elevation: 0.0,

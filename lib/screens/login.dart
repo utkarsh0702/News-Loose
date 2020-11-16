@@ -147,7 +147,7 @@ class _LogInState extends State<LogIn> {
                 Padding(
                     padding: const EdgeInsets.only(top:20.0),
                     child: Text(
-                      'LogIn',
+                      'Log In',
                       style: TextStyle(
                         color: Colors.grey,
                         fontSize: 25.0,
@@ -226,13 +226,14 @@ class _LogInState extends State<LogIn> {
              )
              ),
             Padding(
-              padding: const EdgeInsets.only(top:30.0, left:20.0, right:20),
+              padding: const EdgeInsets.only(top:40.0, left:20.0, right:20.0),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     "Don't have an Account ? ",
                     style: TextStyle(
-                      fontSize: 17.0,
+                      fontSize: 13.0,
                       fontWeight: FontWeight.bold
                     ),
                   ),
@@ -240,13 +241,15 @@ class _LogInState extends State<LogIn> {
                       onTap: (){
                         Navigator.pushNamed(context, '/signup');
                       },
-                      child: Text(
-                          "Create Account ",
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 17.0,
-                            fontWeight: FontWeight.bold
-                          ),
+                      child: FittedBox(
+                        fit: BoxFit.fitWidth,
+                          child: Text(
+                            "Create Account ",
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontWeight: FontWeight.bold
+                            ),
+                        ),
                       ),
                     )
                 ],

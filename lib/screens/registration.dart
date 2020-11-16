@@ -139,11 +139,10 @@ class Slider extends StatelessWidget {
               ],
            ),
         ),
-        // Spacer(flex: 1,),
         Image.asset(
           image,
-          width: size.width - 50,
-          height: size.height - 350 ,
+          // width: size.width - 50,
+          // height: size.height - 350 ,
           ),
       ],
     );

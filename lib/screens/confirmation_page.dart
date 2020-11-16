@@ -16,7 +16,6 @@ class _ConfirmState extends State<Confirm> {
           children: [
             SvgPicture.asset(
               'assets/images/checked.svg',
-              color: Colors.lightGreenAccent[700],
               width: 200,
               height: 200,
               ),

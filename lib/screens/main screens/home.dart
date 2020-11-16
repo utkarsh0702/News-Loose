@@ -53,10 +53,13 @@ class _HomePageState extends State<HomePage> {
             ),
             child: Align(
               alignment: Alignment.center,
-              child: Text(
-                name,
-                style: TextStyle(
-                  color: Colors.white,
+              child: FittedBox(
+                fit: BoxFit.fitWidth,
+                child: Text(
+                  name,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
