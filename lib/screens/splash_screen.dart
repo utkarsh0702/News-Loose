@@ -2,12 +2,28 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 class Splash extends StatefulWidget {
   @override
   _SplashState createState() => _SplashState();
 }
 
 class _SplashState extends State<Splash> {
+
+  bool newuser;
+  SharedPreferences localStorage;
+    // ignore: non_constant_identifier_names
+  void check_if_already_login() async{
+    localStorage = await SharedPreferences.getInstance();
+    newuser = (localStorage.getBool('login') ?? true);
+    if(newuser == false){
+      Navigator.pushNamed(context, '/home');
+    }
+    else{
+      Navigator.pushNamed(context, '/reg');
+    }
+  }
 
   @override
   void initState(){
@@ -23,7 +39,7 @@ class _SplashState extends State<Splash> {
       try {
           final result = await InternetAddress.lookup('google.com');
           if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-            Navigator.pushNamed(context, '/reg');
+            check_if_already_login();
           }
         } on SocketException catch (_) {
           _showDialog('No Internet', 'You are not connected to network.');
