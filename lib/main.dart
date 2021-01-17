@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:NewsLoose/screens/splash_screen.dart';
-import 'package:NewsLoose/screens/registration.dart';
-import 'package:NewsLoose/screens/signup.dart';
-import 'package:NewsLoose/screens/login.dart';
-import 'package:NewsLoose/screens/main screens/home.dart';
-import 'package:NewsLoose/screens/main screens/category_page.dart';
-import 'package:NewsLoose/screens/main screens/article_page.dart';
-import 'package:NewsLoose/screens/confirmation_page.dart';
+import 'screens/splash_screen.dart';
+import 'screens/registration.dart';
+import 'screens/signup.dart';
+import 'screens/login.dart';
+import 'screens/main screens/home.dart';
+import 'screens/main screens/category_page.dart';
+import 'screens/main screens/article_page.dart';
+import 'screens/confirmation_page.dart';
+import 'screens/main screens/nav.dart';
 
 void main(){
   runApp(myApp());
@@ -25,6 +26,7 @@ class myApp extends StatelessWidget {
         '/home': (context) => HomePage(),
         '/category': (context) => CategoryPage(),
         '/article': (context) => ArticlePage(),
+        '/nav': (context) => NavBar(),
       },
       title: 'News Loose',
       debugShowCheckedModeBanner: false,
