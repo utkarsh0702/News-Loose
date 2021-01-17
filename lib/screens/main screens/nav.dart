@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'home.dart';
+import 'categories.dart';
+import 'owner.dart';
 
 class NavBar extends StatefulWidget {
   @override
@@ -7,6 +10,9 @@ class NavBar extends StatefulWidget {
 }
 
 class _NavBarState extends State<NavBar> {
+  final HomePage homepage = HomePage();
+  final Categories categories = new Categories();
+  final Owner owner = new Owner();
 
   int _currentIndex = 0;
   PageController _pageController;
@@ -33,36 +39,26 @@ class _NavBarState extends State<NavBar> {
             setState(() => _currentIndex = index);
           },
           children: <Widget>[
-            Container(color: Colors.blueGrey,),
-            Container(color: Colors.red,),
-            Container(color: Colors.green,),
-            Container(color: Colors.blue,),
+            homepage,
+            categories,
+            owner,
           ],
         ),
       ),
       bottomNavigationBar: BottomNavyBar(
         selectedIndex: _currentIndex,
+        showElevation: true,
+        itemCornerRadius: 20,
+        curve: Curves.easeIn,
         onItemSelected: (index) {
           setState(() => _currentIndex = index);
           _pageController.jumpToPage(index);
         },
         items: <BottomNavyBarItem>[
+          BottomNavyBarItem(title: Text('Home'), icon: Icon(Icons.home)),
           BottomNavyBarItem(
-            title: Text('Item One'),
-            icon: Icon(Icons.home)
-          ),
-          BottomNavyBarItem(
-            title: Text('Item Two'),
-            icon: Icon(Icons.apps)
-          ),
-          BottomNavyBarItem(
-            title: Text('Item Three'),
-            icon: Icon(Icons.chat_bubble)
-          ),
-          BottomNavyBarItem(
-            title: Text('Item Four'),
-            icon: Icon(Icons.settings)
-          ),
+              title: Text('Category'), icon: Icon(Icons.category)),
+          BottomNavyBarItem(title: Text('Personal'), icon: Icon(Icons.person)),
         ],
       ),
     );
