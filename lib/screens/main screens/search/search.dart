@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
+import 'search_page.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -7,9 +8,12 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  DateTime selectedDate = DateTime(2000, 1, 1);
+  
+  DateTime today = DateTime.now();
+  DateTime fromselectedDate = DateTime(2021);
+  DateTime toselectedDate = DateTime.now();
   String query = "";
-  var currentCon = 'All';
+  String currentCon = 'All';
   List<String> sources = [
     'All',
     'ABC News',
@@ -21,22 +25,25 @@ class _SearchState extends State<Search> {
     'ESPN'
   ];
 
-  _selectDate(BuildContext context) async {
+  _selectDate(BuildContext context, bool date) async {
     final DateTime picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate, // Refer step 1
-      firstDate: DateTime(2000),
+      initialDate: date ? fromselectedDate : toselectedDate, 
+      firstDate: DateTime(today.year, today.month - 1, today.day),
       lastDate: DateTime.now(),
-      initialEntryMode: DatePickerEntryMode.input,
     );
-    if (picked != null && picked != selectedDate)
+    if (picked != null && picked != fromselectedDate && date == true)
       setState(() {
-        selectedDate = picked;
+        fromselectedDate = picked;
+      });
+    else if (picked != null && picked != toselectedDate && date == false)
+      setState(() {
+        toselectedDate = picked;
       });
   }
 
   //--------------------Available sort by btn values----------------------------//
-  String sortVal = "";
+  String sortVal = "publishedAt";
   bool isbt1 = false;
   bool isbt2 = false;
   bool isbt3 = false;
@@ -104,153 +111,201 @@ class _SearchState extends State<Search> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: ListView(
-          children: [
-            //------------------------------ Search Bar ----------------------------//
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: TextField(
-                onSubmitted: (value) {
-                  query = value;
-                },
-                autofocus: true,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.transparent,
-                  prefixIcon: Icon(Icons.search),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.0)),
-                  hintText: 'Search',
+        child: Padding(
+          padding: const EdgeInsets.only(top:10.0),
+          child: ListView(
+            children: [
+              //------------------------------ Search Bar ----------------------------//
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: TextField(
+                  onSubmitted: (value) {
+                    query = value;
+                  },
+                  autofocus: true,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.transparent,
+                    prefixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0)),
+                    hintText: 'Search',
+                  ),
                 ),
               ),
-            ),
-            //--------------------Date Picking -----------------------//
-            Padding(
-              padding:
-                  const EdgeInsets.only(left: 15.0, top: 10.0, bottom: 10.0),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 5.0),
-                    child: Row(children: [
-                      Icon(Icons.calendar_today),
-                      Text("Date From : ",
-                          style: TextStyle(
-                              fontSize: 20.0, fontFamily: 'Pacifico')),
-                      SizedBox(width: 10.0),
-                      Text(
-                        "${selectedDate.toLocal()}".split(' ')[0],
-                        style: TextStyle(
-                            fontSize: 30.0,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Pacifico'),
-                      ),
-                    ]),
-                  ),
-                  RaisedButton(
-                    onPressed: () => _selectDate(context),
-                    child: Text(
-                      'Select date',
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    color: Theme.of(context).accentColor,
-                  ),
-                ],
-              ),
-            ),
-            //------------------------ Source DropDown Menu----------------------//
-            Padding(
-              padding:
-                  const EdgeInsets.only(left: 15.0, top: 20.0, bottom: 20.0),
-              child: Row(
-                children: [
-                  Icon(Icons.source),
-                  Text("Sources : ",
-                      style: TextStyle(fontSize: 20.0, fontFamily: 'Pacifico')),
-                  SizedBox(width: 10.0),
-                  Container(
-                    padding: EdgeInsets.only(left: 7.0, right: 2.0),
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).accentColor,
-                        borderRadius: BorderRadius.circular(15)),
-                    child: DropdownButton(
-                      iconEnabledColor: Colors.white,
-                      dropdownColor: Theme.of(context).primaryColor,
-                      elevation: 10,
-                      style: TextStyle(
-                          decoration: TextDecoration.none,
-                          textBaseline: TextBaseline.alphabetic),
-                      items: sources.map((con) {
-                        return DropdownMenuItem(
-                          value: con,
-                          child: Center(
-                            child: Text(
-                              con,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Langar',
-                              ),
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (String newCon) {
-                        setState(() {
-                          this.currentCon = newCon;
-                        });
-                      },
-                      value: currentCon,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            //---------------------------- Sort By Buttons ------------------//
-            Padding(
-              padding:
-                  const EdgeInsets.only(left: 15.0, top: 20.0, bottom: 20.0),
-              child: Column(children: [
-                Row(
+              //--------------------Date Picking From-----------------------//
+              Padding(
+                padding:
+                    const EdgeInsets.only(left: 15.0, top: 10.0),
+                child: Column(
                   children: [
-                    Icon(LineAwesomeIcons.filter),
-                    Text("Sort By : ",
-                        style:
-                            TextStyle(fontSize: 20.0, fontFamily: 'Pacifico')),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 3.0),
+                      child: Row(children: [
+                        Icon(Icons.calendar_today),
+                        Text("Date From : ",
+                            style: TextStyle(
+                                fontSize: 20.0, fontFamily: 'Pacifico')),
+                        SizedBox(width: 10.0),
+                        Text(
+                          "${fromselectedDate.toLocal()}".split(' ')[0],
+                          style: TextStyle(
+                              fontSize: 30.0,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Pacifico'),
+                        ),
+                      ]),
+                    ),
+                    RaisedButton(
+                      onPressed: () => _selectDate(context, true),
+                      child: Text(
+                        'Select date',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                      color: Theme.of(context).accentColor,
+                    ),
                   ],
                 ),
-                Row(children: [
-                  availableSort('Relevancy', btn: 'bt1'),
-                  availableSort('Popularity', btn: 'bt2'),
-                  availableSort('Published At', btn: 'bt3'),
-                ]),
-              ]),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20.0, bottom: 20.0, left:40.0, right:40.0),
-              child: MaterialButton(
-                  onPressed: () {},
-                  color: Theme.of(context).primaryColor,
-                  shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                          color: Theme.of(context).accentColor, width: 3.0),
-                      borderRadius: BorderRadius.circular(20)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Text(
-                      'Search',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 25.0,
-                          fontFamily: 'Pacifico'),
+              ),
+              //--------------------Date Picking To-----------------------//
+              Padding(
+                padding:
+                    const EdgeInsets.only(left: 15.0, top: 10.0),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 5.0),
+                      child: Row(children: [
+                        Icon(Icons.calendar_today),
+                        Text("Date To : ",
+                            style: TextStyle(
+                                fontSize: 20.0, fontFamily: 'Pacifico')),
+                        SizedBox(width: 10.0),
+                        Text(
+                          "${toselectedDate.toLocal()}".split(' ')[0],
+                          style: TextStyle(
+                              fontSize: 30.0,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Pacifico'),
+                        ),
+                      ]),
                     ),
-                  )),
-            )
-          ],
+                    RaisedButton(
+                      onPressed: () => _selectDate(context, false),
+                      child: Text(
+                        'Select date',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                      color: Theme.of(context).accentColor,
+                    ),
+                  ],
+                ),
+              ),
+              //------------------------ Source DropDown Menu----------------------//
+              Padding(
+                padding:
+                    const EdgeInsets.only(left: 15.0, top: 20.0, bottom: 20.0),
+                child: Row(
+                  children: [
+                    Icon(Icons.source),
+                    Text("Sources : ",
+                        style: TextStyle(fontSize: 20.0, fontFamily: 'Pacifico')),
+                    SizedBox(width: 10.0),
+                    Container(
+                      padding: EdgeInsets.only(left: 7.0, right: 2.0),
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).accentColor,
+                          borderRadius: BorderRadius.circular(15)),
+                      child: DropdownButton(
+                        iconEnabledColor: Colors.white,
+                        dropdownColor: Theme.of(context).primaryColor,
+                        elevation: 10,
+                        style: TextStyle(
+                            decoration: TextDecoration.none,
+                            textBaseline: TextBaseline.alphabetic),
+                        items: sources.map((con) {
+                          return DropdownMenuItem(
+                            value: con,
+                            child: Center(
+                              child: Text(
+                                con,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Langar',
+                                ),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (String newCon) {
+                          setState(() {
+                            this.currentCon = newCon;
+                          });
+                        },
+                        value: currentCon,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              //---------------------------- Sort By Buttons ------------------//
+              Padding(
+                padding:
+                    const EdgeInsets.only(left: 15.0, top: 10.0, bottom: 20.0),
+                child: Column(children: [
+                  Row(
+                    children: [
+                      Icon(LineAwesomeIcons.filter),
+                      Text("Sort By : ",
+                          style:
+                              TextStyle(fontSize: 20.0, fontFamily: 'Pacifico')),
+                    ],
+                  ),
+                  Row(children: [
+                    availableSort('Relevancy', btn: 'bt1'),
+                    availableSort('Popularity', btn: 'bt2'),
+                    availableSort('Published At', btn: 'bt3'),
+                  ]),
+                ]),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 10.0, bottom: 20.0, left: 40.0, right: 40.0),
+                child: MaterialButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SearchPage(
+                                    query : query,
+                                    fromdate : "${fromselectedDate.toLocal()}".split(' ')[0],
+                                    todate : "${toselectedDate.toLocal()}".split(' ')[0],
+                                    source : currentCon.toLowerCase().replaceAll(" ", "-"),
+                                    sort : sortVal
+                                  )));
+                    },
+                    color: Theme.of(context).primaryColor,
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                            color: Theme.of(context).accentColor, width: 3.0),
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Text(
+                        'Search',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 25.0,
+                            fontFamily: 'Pacifico'),
+                      ),
+                    )),
+              )
+            ],
+          ),
         ),
       ),
     );
   }
 }
-
-class LineAwesomeIcon {}

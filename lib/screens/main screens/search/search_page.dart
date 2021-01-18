@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:NewsLoose/helper/news.dart';
 
 class SearchPage extends StatefulWidget {
+
+  final String query, source, sort, fromdate, todate;
+ SearchPage({this.query, this.fromdate, this.todate, this.source, this.sort});
+
   @override
   _SearchPageState createState() => _SearchPageState();
 }
@@ -15,12 +19,12 @@ bool _loading= true;
 @override
 void initState() { 
   super.initState();
-  getCategoryNews();
+  getSearchNews();
 }
 
-getCategoryNews() async{
-  CategoryNews news= CategoryNews();
-  await news.getCategoryNews(widget.category);
+getSearchNews() async{
+  SearchNews news= SearchNews();
+  await news.getSearchNews(widget.query, widget.fromdate, widget.todate, widget.source, widget.sort);
   article= news.news;
   setState(() {
     _loading = false;
@@ -58,7 +62,18 @@ getCategoryNews() async{
         child: Container(
           child: CircularProgressIndicator(),
         ),
-      ) :
+      ) : (article.isEmpty ? Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children : [
+                Icon(Icons.error_outline, size:30.0, color:Colors.grey),
+                Text('No Results', style:TextStyle(fontSize:30.0, color:Colors.grey))
+              ])
+          ],),
+       ) :
        SafeArea(
         child: SingleChildScrollView(
           child:Container(
@@ -79,11 +94,12 @@ getCategoryNews() async{
           )
           ),
         )
+      )
     );
   }
 }
 
-//-------------------------------- Home Screen Tiles ---------------------------//
+//-------------------------------- Search Page Tiles ---------------------------//
 // ignore: must_be_immutable
 class BlogTile extends StatelessWidget {
 
