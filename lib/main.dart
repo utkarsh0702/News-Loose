@@ -4,7 +4,7 @@ import 'screens/registration.dart';
 import 'screens/signup.dart';
 import 'screens/login.dart';
 import 'screens/main screens/home.dart';
-import 'screens/main screens/category_page.dart';
+import 'screens/main screens/category/category_page.dart';
 import 'screens/main screens/article_page.dart';
 import 'screens/confirmation_page.dart';
 import 'screens/main screens/nav.dart';

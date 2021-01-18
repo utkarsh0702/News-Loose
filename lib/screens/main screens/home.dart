@@ -1,6 +1,6 @@
 import 'package:NewsLoose/helper/article.dart';
 import 'package:NewsLoose/helper/news.dart';
-import 'package:NewsLoose/screens/main%20screens/category_page.dart';
+import 'category/category_page.dart';
 import 'package:flutter/material.dart';
 import 'article_page.dart';
 
