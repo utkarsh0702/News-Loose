@@ -8,6 +8,8 @@ import 'screens/main screens/category/category_page.dart';
 import 'screens/main screens/article_page.dart';
 import 'screens/confirmation_page.dart';
 import 'screens/main screens/nav.dart';
+import 'screens/main screens/settings/about.dart';
+import 'screens/main screens/settings/settings.dart';
 
 void main(){
   runApp(myApp());
@@ -27,6 +29,8 @@ class myApp extends StatelessWidget {
         '/category': (context) => CategoryPage(),
         '/article': (context) => ArticlePage(),
         '/nav': (context) => NavBar(),
+        '/about': (context) => About(),
+        '/settings': (context) => Settings(),
       },
       title: 'News Loose',
       debugShowCheckedModeBanner: false,
