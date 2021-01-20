@@ -142,6 +142,11 @@ getNews() async{
                   itemCount: article.length,
                   shrinkWrap: true,
                   itemBuilder: (context, index){
+                    try{
+                      Image.network(article[index].url_to_image);
+                    } on Exception catch (_) {
+                        article.remove(index);
+                      }
                     return BlogTile(
                       imageUrl: article[index].url_to_image,
                       title: article[index].title,
