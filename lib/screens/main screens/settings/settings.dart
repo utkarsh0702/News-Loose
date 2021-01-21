@@ -1,6 +1,8 @@
 import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
+import 'package:NewsLoose/helper/image_lookup.dart';
+import 'change_avatar.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -8,8 +10,9 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  String name = 'Utkarsh Mishra', temp='';
-  bool change=false;
+  String name = 'Utkarsh Mishra', temp = '';
+  bool change = false;
+  int number = 1;
 
   //--------------------------Horizontal Sliding Country List----------------------//
   Widget countryFlags(String flagName, String countryName) {
@@ -48,6 +51,21 @@ class _SettingsState extends State<Settings> {
         ),
       ),
     );
+  }
+
+  void _awaitReturnValueFromSecondScreen(BuildContext context) async {
+
+    // start the SecondScreen and wait for it to finish with a result
+    final result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChangeAvatar(),
+        ));
+
+    // after the SecondScreen result comes back update the Text widget with it
+    setState(() {
+      number = result;
+    });
   }
 
   //--------------------------Horizontal Sliding Language List----------------------//
@@ -117,22 +135,29 @@ class _SettingsState extends State<Settings> {
                 border:
                     Border.all(color: Theme.of(context).accentColor, width: 5),
                 image: DecorationImage(
-                  image: AssetImage('assets/avatar/avatar1.png'),
+                  image: AssetImage(imageLookUp(number)),
                   fit: BoxFit.contain,
                 )),
             child: Align(
               alignment: Alignment.lerp(
                   Alignment.bottomCenter, Alignment.bottomRight, 0.25),
-              child: Container(
-                height: 30,
-                width: 30,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.yellow[900],
-                ),
-                child: Icon(
-                  LineAwesomeIcons.pencil,
-                  size: 20.0,
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                     _awaitReturnValueFromSecondScreen(context);
+                  });
+                },
+                child: Container(
+                  height: 30,
+                  width: 30,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.yellow[900],
+                  ),
+                  child: Icon(
+                    LineAwesomeIcons.pencil,
+                    size: 20.0,
+                  ),
                 ),
               ),
             ),
@@ -142,81 +167,82 @@ class _SettingsState extends State<Settings> {
             child: Text('Change Name',
                 style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
           ),
-          change ? Padding(
-            padding: const EdgeInsets.only(top: 10.0, left: 30.0, right: 30.0),
-            child: Column(
-              children: [
-                TextField(
-                  onChanged: (value) {
-                    temp = value;
-                  },
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
-                    hintText: 'Enter Name',
+          change
+              ? Padding(
+                  padding:
+                      const EdgeInsets.only(top: 10.0, left: 30.0, right: 30.0),
+                  child: Column(
+                    children: [
+                      TextField(
+                        onChanged: (value) {
+                          temp = value;
+                        },
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0)),
+                          hintText: 'Enter Name',
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: MaterialButton(
+                                minWidth: 100.0,
+                                onPressed: () {
+                                  setState(() {
+                                    name = temp;
+                                    change = false;
+                                  });
+                                },
+                                color: Theme.of(context).accentColor,
+                                elevation: 20,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: Text('Save')),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: MaterialButton(
+                                minWidth: 100.0,
+                                onPressed: () {
+                                  setState(() {
+                                    change = false;
+                                  });
+                                },
+                                color: Theme.of(context).accentColor,
+                                elevation: 20,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: Text('Cancle')),
+                          ),
+                        ],
+                      )
+                    ],
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: MaterialButton(
-                          minWidth: 100.0,
-                          onPressed: () {
-                            setState(() {
-                              name= temp;
-                              change = false;
-                            });
-                          },
-                          color: Theme.of(context).accentColor,
-                          elevation: 20,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          child: Text('Save')),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: MaterialButton(
-                          minWidth: 100.0,
-                          onPressed: () {
-                            setState(() {
-                              change = false;
-                            });
-                          },
-                          color: Theme.of(context).accentColor,
-                          elevation: 20,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          child: Text('Cancle')),
-                    ),
-                  ],
                 )
-              ],
-            ),
-          ):
-          Padding(
-            padding: const EdgeInsets.only(left: 30.0, top: 10.0),
-            child: Row(children: [
-              Text(name, style: TextStyle(fontSize: 20.0)),
-              Spacer(),
-              Padding(
-                padding: const EdgeInsets.only(right: 20.0),
-                child: MaterialButton(
-                    onPressed: () {
-                      setState(() {
-                        change= true;
-                      });
-                    },
-                    color: Theme.of(context).accentColor,
-                    elevation: 20,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Text('Change')),
-              )
-            ]),
-          ),
-          
+              : Padding(
+                  padding: const EdgeInsets.only(left: 30.0, top: 10.0),
+                  child: Row(children: [
+                    Text(name, style: TextStyle(fontSize: 20.0)),
+                    Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 20.0),
+                      child: MaterialButton(
+                          onPressed: () {
+                            setState(() {
+                              change = true;
+                            });
+                          },
+                          color: Theme.of(context).accentColor,
+                          elevation: 20,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Text('Change')),
+                    )
+                  ]),
+                ),
           Padding(
             padding: const EdgeInsets.only(left: 10.0, top: 20.0),
             child: Text('Change Language',
@@ -283,31 +309,27 @@ class _SettingsState extends State<Settings> {
                 style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
           ),
           Padding(
-            padding: const EdgeInsets.only(left:30.0, right:30.0, top:20.0, bottom:30.0),
+            padding: const EdgeInsets.only(
+                left: 30.0, right: 30.0, top: 20.0, bottom: 30.0),
             child: SizedBox(
-                  width: MediaQuery.of(context).size.width - 70,
-                    child: MaterialButton(
-                      onPressed: (){
-                        Navigator.pushNamed(context, '/changePassword');
-                      },
-                      color: Theme.of(context).accentColor,
-                      splashColor: Theme.of(context).primaryColor,
-                      elevation: 20,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Text(
-                          'Change Password',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20.0
-                          ),
-                          ),
-                      )
-                      ),
-                  ),
+              width: MediaQuery.of(context).size.width - 70,
+              child: MaterialButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/changePassword');
+                  },
+                  color: Theme.of(context).accentColor,
+                  splashColor: Theme.of(context).primaryColor,
+                  elevation: 20,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Text(
+                      'Change Password',
+                      style: TextStyle(color: Colors.white, fontSize: 20.0),
+                    ),
+                  )),
+            ),
           ),
         ],
       ),
