@@ -142,6 +142,7 @@ getNews() async{
                   itemCount: article.length,
                   shrinkWrap: true,
                   itemBuilder: (context, index){
+                    //------------------------ handling image exception-----------//
                     try{
                       Image.network(article[index].url_to_image);
                     } on Exception catch (_) {

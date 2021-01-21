@@ -122,7 +122,6 @@ class _SearchState extends State<Search> {
                   onSubmitted: (value) {
                     query = value;
                   },
-                  autofocus: true,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.transparent,

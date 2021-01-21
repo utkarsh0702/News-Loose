@@ -10,7 +10,7 @@ import 'screens/confirmation_page.dart';
 import 'screens/main screens/nav.dart';
 import 'screens/main screens/settings/about.dart';
 import 'screens/main screens/settings/settings.dart';
-
+import'screens/main screens/settings/change_password.dart';
 void main(){
   runApp(myApp());
 }
@@ -31,6 +31,7 @@ class myApp extends StatelessWidget {
         '/nav': (context) => NavBar(),
         '/about': (context) => About(),
         '/settings': (context) => Settings(),
+        '/changePassword': (context) => ChangePassword(),
       },
       title: 'News Loose',
       debugShowCheckedModeBanner: false,
