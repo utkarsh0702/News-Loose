@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:NewsLoose/screens/registration.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -8,10 +10,12 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
 
+  SharedPreferences localStorage;
+
   Widget items(var icon, var text, var page) {
     return Expanded(
       child: GestureDetector(
-        onTap: () {
+        onTap: () async {
           if (page == 'license') {
             showAboutDialog(
                 context: context,
@@ -33,6 +37,18 @@ class _ProfileState extends State<Profile> {
                       "STRICT LIABILITY,OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED "
                       "OF THE POSSIBILITY OF SUCH DAMAGE.")
                 ]);
+          }
+          if (page == 'logout') {
+            localStorage = await SharedPreferences.getInstance();
+            await localStorage.setBool('login', true);
+
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => RegPage(),
+              ),
+              (route) => false,
+            );
           }
           else{
             Navigator.pushNamed(context, page);
@@ -149,7 +165,7 @@ class _ProfileState extends State<Profile> {
                   items(Icons.settings, 'Settings', '/settings'),
                   items(Icons.insert_drive_file_outlined, 'License', 'license'),
                   items(Icons.home, 'About', '/about'),
-                  items(Icons.logout, 'Logout', ''),
+                  items(Icons.logout, 'Logout', 'logout'),
                 ],
               )),
         ],

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:NewsLoose/screens/main screens/nav.dart';
 
 class LogIn extends StatefulWidget {
   @override
@@ -106,19 +107,20 @@ class _LogInState extends State<LogIn> {
             decoration: InputDecoration(
               prefixIcon: Icon(
                 icon,
-                color: Colors.black,
+                color: Colors.white,
               ),
               hintText: text,
+              hintStyle: TextStyle(color:Colors.white60),
               suffixIcon: pass == true
                   ? IconButton(
                       icon: (val == true)
                           ? Icon(
                               LineAwesomeIcons.eye,
-                              color: Colors.black45,
+                              color: Colors.white,
                             )
                           : Icon(
                               LineAwesomeIcons.eye_slash,
-                              color: Colors.black45,
+                              color: Colors.white,
                             ),
                       onPressed: () {
                         setState(() {
@@ -129,7 +131,7 @@ class _LogInState extends State<LogIn> {
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20.0),
                   borderSide: BorderSide(
-                      width: 2.0, color: Theme.of(context).accentColor)),
+                      width: 2.0, color: Colors.white)),
             )));
   }
 
@@ -205,7 +207,13 @@ class _LogInState extends State<LogIn> {
                               //     email: email, password: password,
                               //     )).user;
                               //     if(user != null){
-                              Navigator.pushNamed(context, '/home');
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) => NavBar(),
+                                ),
+                                (route) => false,
+                              );
                               //       }
                               //   }catch(e){
                               //     print(e);
@@ -246,7 +254,7 @@ class _LogInState extends State<LogIn> {
                     style: TextStyle(
                         fontSize: 13.0,
                         fontWeight: FontWeight.bold,
-                        color: Theme.of(context).primaryColor)),
+                        color: Colors.blue[900])),
                 GestureDetector(
                   onTap: () {
                     Navigator.pushNamed(context, '/signup');

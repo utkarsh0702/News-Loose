@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:NewsLoose/screens/main screens/nav.dart';
 
 class Confirm extends StatefulWidget {
   @override
@@ -41,7 +42,13 @@ class _ConfirmState extends State<Confirm> {
                 width: MediaQuery.of(context).size.width - 70,
                   child: MaterialButton(
                     onPressed: (){
-                      Navigator.pushNamed(context, '/nav');
+                      Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) => NavBar(),
+                                ),
+                                (route) => false,
+                              );
                     },
                     color: Theme.of(context).accentColor,
                     elevation: 20,

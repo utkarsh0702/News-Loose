@@ -128,19 +128,20 @@ class _SignUpState extends State<SignUp> {
         decoration: InputDecoration(
           prefixIcon: Icon(
             icon,
-            color: Colors.black,
+            color: Colors.white,
           ),
           hintText: text,
+          hintStyle: TextStyle(color:Colors.white60),
           suffixIcon: val == 2
               ? IconButton(
                   icon: values == true
                       ? Icon(
                           LineAwesomeIcons.eye,
-                          color: Colors.black45,
+                          color: Colors.white,
                         )
                       : Icon(
                           LineAwesomeIcons.eye_slash,
-                          color: Colors.black45,
+                          color: Colors.white,
                         ),
                   onPressed: () {
                     setState(() {
@@ -186,7 +187,8 @@ class _SignUpState extends State<SignUp> {
                       fontSize: 25.0,
                       letterSpacing: .5,
                       fontWeight: FontWeight.w400,
-                      fontFamily: 'Langar'
+                      fontFamily: 'Langar',
+                      color:Colors.white,
                       ),
                 ),
               ),
