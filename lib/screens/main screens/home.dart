@@ -109,7 +109,7 @@ class _HomePageState extends State<HomePage> {
               flex: 1,
             ),
             Text(
-              'News',
+              'News ',
               style: TextStyle(
                   color: Theme.of(context).primaryColor,
                   fontWeight: FontWeight.bold),

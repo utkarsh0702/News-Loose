@@ -40,7 +40,7 @@ getSearchNews() async{
           children: [
             Spacer(flex: 1,),
             Text(
-              'News',
+              'News ',
               style: TextStyle(
                 color: Theme.of(context).primaryColor,
                 fontWeight: FontWeight.bold

@@ -21,7 +21,7 @@ class _SplashState extends State<Splash> {
       Navigator.pushNamed(context, '/nav');
     }
     else{
-      Navigator.pushNamed(context, '/nav');
+      Navigator.pushNamed(context, '/reg');
     }
   }
 
@@ -75,7 +75,7 @@ class _SplashState extends State<Splash> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'NEWS',
+                  'NEWS ',
                   style: TextStyle(
                     color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.bold,
