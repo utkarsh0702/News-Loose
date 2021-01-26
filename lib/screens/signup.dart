@@ -18,33 +18,35 @@ class _SignUpState extends State<SignUp> {
     await localStorage.setBool('login', false);
   }
 
+  //----------------------- Text Controllers------------------//
+  var emailtextController = TextEditingController();
+  var passtextController = TextEditingController();
+  var nametextController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    passtextController.dispose();
+    emailtextController.dispose();
+    super.dispose();
+  }
+
+//--------------------------- Form Feilds------------------------------------//
   final _formKey = GlobalKey<FormState>();
   final List<String> errors = [];
   bool values = true;
-  String name = "", email = "", password = "";
 
   Widget formFields(String text, IconData icon, int val) {
     return Padding(
       padding: const EdgeInsets.only(
           top: 10.0, bottom: 10.0, right: 30.0, left: 30.0),
       child: TextFormField(
-        onSaved: (detail) {
-          if (val == 0) {
-            setState(() {
-              name = detail;
-            });
-          }
-          if (val == 1) {
-            setState(() {
-              email = detail;
-            });
-          }
-          if (val == 2) {
-            setState(() {
-              password = detail;
-            });
-          }
-        },
         keyboardType: val == 0
             ? TextInputType.name
             : (val == 1
@@ -67,8 +69,7 @@ class _SignUpState extends State<SignUp> {
           }
           if (val == 2) {
             if (value.length >= 6 &&
-                errors.contains(
-                    "Password should have atleast 6 characters.")) {
+                errors.contains("Password should have atleast 6 characters.")) {
               setState(() {
                 errors.remove("Password should have atleast 6 characters.");
               });
@@ -85,8 +86,7 @@ class _SignUpState extends State<SignUp> {
           }
         },
         validator: (value) {
-          if (value.isEmpty &&
-              !errors.contains("Required.. Cannot be Empty")) {
+          if (value.isEmpty && !errors.contains("Required.. Cannot be Empty")) {
             setState(() {
               errors.add("Required.. Cannot be Empty");
             });
@@ -103,8 +103,8 @@ class _SignUpState extends State<SignUp> {
           }
           if (val == 2) {
             if (value.length < 6 &&
-                !errors.contains(
-                    "Password should have atleast 6 characters.")) {
+                !errors
+                    .contains("Password should have atleast 6 characters.")) {
               setState(() {
                 errors.add("Password should have atleast 6 characters.");
               });
@@ -125,13 +125,16 @@ class _SignUpState extends State<SignUp> {
           return null;
         },
         obscureText: (val == 2 && values == true) ? true : false,
+        controller: val == 0
+            ? nametextController
+            : (val == 1 ? emailtextController : passtextController),
         decoration: InputDecoration(
           prefixIcon: Icon(
             icon,
             color: Colors.white,
           ),
           hintText: text,
-          hintStyle: TextStyle(color:Colors.white60),
+          hintStyle: TextStyle(color: Colors.white60),
           suffixIcon: val == 2
               ? IconButton(
                   icon: values == true
@@ -149,12 +152,9 @@ class _SignUpState extends State<SignUp> {
                     });
                   })
               : Icon(null),
-          border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
         ),
-        style: TextStyle(
-          decoration: TextDecoration.none
-        ),
+        style: TextStyle(decoration: TextDecoration.none),
       ),
     );
   }
@@ -167,13 +167,12 @@ class _SignUpState extends State<SignUp> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
               begin: Alignment.topLeft,
-              end: Alignment(0.99,0.5),
+              end: Alignment(0.99, 0.5),
               colors: [
                 Colors.blue,
                 Colors.lightBlueAccent,
               ],
-              tileMode: TileMode.repeated
-          ),
+              tileMode: TileMode.repeated),
         ),
         child: ListView(children: [
           Row(
@@ -184,12 +183,12 @@ class _SignUpState extends State<SignUp> {
                 child: Text(
                   'SignUp',
                   style: TextStyle(
-                      fontSize: 25.0,
-                      letterSpacing: .5,
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'Langar',
-                      color:Colors.white,
-                      ),
+                    fontSize: 25.0,
+                    letterSpacing: .5,
+                    fontWeight: FontWeight.w400,
+                    fontFamily: 'Langar',
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ],
@@ -203,8 +202,7 @@ class _SignUpState extends State<SignUp> {
                     fontSize: 40.0,
                     fontWeight: FontWeight.w300,
                     fontFamily: 'Pacifico',
-                    color: Colors.white
-                ),
+                    color: Colors.white),
               ),
             ),
           ),
@@ -263,21 +261,20 @@ class _SignUpState extends State<SignUp> {
                           },
                           color: Colors.transparent,
                           shape: RoundedRectangleBorder(
-                            side: BorderSide(color: Theme.of(context).accentColor, width: 3.0),
+                              side: BorderSide(
+                                  color: Theme.of(context).accentColor,
+                                  width: 3.0),
                               borderRadius: BorderRadius.circular(20)),
                           child: Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Text(
                               'Create Account',
-                              style:
-                                  TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 25.0,
-                                    fontFamily: 'Pacifico'
-                                  ),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 25.0,
+                                  fontFamily: 'Pacifico'),
                             ),
-                          )
-                        ),
+                          )),
                     ),
                   ),
                 ],
@@ -286,7 +283,8 @@ class _SignUpState extends State<SignUp> {
             height: 30.0,
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 20.0, right: 20.0, left: 20.0),
+            padding:
+                const EdgeInsets.only(bottom: 20.0, right: 20.0, left: 20.0),
             child: Expanded(
                 child: Text(
               'By clicking you confirm that you agree with our Terms and Conditions',
@@ -294,8 +292,7 @@ class _SignUpState extends State<SignUp> {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
               ),
-            )
-            ),
+            )),
           )
         ]),
       ),

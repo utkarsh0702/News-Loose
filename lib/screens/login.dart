@@ -23,7 +23,22 @@ class _LogInState extends State<LogIn> {
   final _formKey = GlobalKey<FormState>();
   final List<String> errors = [];
   bool val = true;
-  String email = "", password = "";
+  //----------------------- Text Controllers------------------//
+  var emailtextController = TextEditingController();
+  var passtextController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    passtextController.dispose();
+    emailtextController.dispose();
+    super.dispose();
+  }
 
   //------------------------------Form Feilds---------------------//
 
@@ -35,18 +50,6 @@ class _LogInState extends State<LogIn> {
             keyboardType: pass == false
                 ? TextInputType.emailAddress
                 : TextInputType.visiblePassword,
-            onSaved: (value) {
-              if (pass == false) {
-                setState(() {
-                  email = value;
-                });
-              }
-              if (pass == true) {
-                setState(() {
-                  password = value;
-                });
-              }
-            },
             onChanged: (value) {
               if (value.isNotEmpty && errors.contains("Cannot be Empty")) {
                 setState(() {
@@ -103,6 +106,7 @@ class _LogInState extends State<LogIn> {
               return null;
             },
             obscureText: (pass == true && val == true) ? true : false,
+            controller: (pass == true) ? passtextController : emailtextController,
             style: TextStyle(decoration: TextDecoration.none),
             decoration: InputDecoration(
               prefixIcon: Icon(
