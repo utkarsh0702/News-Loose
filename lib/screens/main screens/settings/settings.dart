@@ -54,7 +54,6 @@ class _SettingsState extends State<Settings> {
   }
 
   void _awaitReturnValueFromSecondScreen(BuildContext context) async {
-
     // start the SecondScreen and wait for it to finish with a result
     final result = await Navigator.push(
         context,
@@ -66,33 +65,6 @@ class _SettingsState extends State<Settings> {
     setState(() {
       number = result;
     });
-  }
-
-  //--------------------------Horizontal Sliding Language List----------------------//
-  Widget languages(String lang, String text) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Card(
-        color: Colors.transparent,
-        elevation: 10.0,
-        child: Container(
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20.0),
-              border: Border.all(
-                  color: Theme.of(context).primaryColor, width: 2.0)),
-          child: Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Column(
-              children: [
-                Text(lang, style: TextStyle(fontFamily: 'Langar')),
-                Text('($text)')
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
   }
 
   @override
@@ -144,7 +116,7 @@ class _SettingsState extends State<Settings> {
               child: GestureDetector(
                 onTap: () {
                   setState(() {
-                     _awaitReturnValueFromSecondScreen(context);
+                    _awaitReturnValueFromSecondScreen(context);
                   });
                 },
                 child: Container(
@@ -243,34 +215,6 @@ class _SettingsState extends State<Settings> {
                     )
                   ]),
                 ),
-          Padding(
-            padding: const EdgeInsets.only(left: 10.0, top: 20.0),
-            child: Text('Change Language',
-                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width - 30,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.0),
-              // color: Colors.grey[300],
-            ),
-            child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(children: <Widget>[
-                  languages('English', 'News'),
-                  languages('Arabic', 'أخبار'),
-                  languages('German', 'Nachrichten'),
-                  languages('Spanish', 'Noticias'),
-                  languages('French', 'Nouvelles'),
-                  languages('Hebrew', 'חֲדָשׁוֹת'),
-                  languages('Italian', 'notizia'),
-                  languages('Dutch', 'Nieuws'),
-                  languages('Norwegian', 'Nyheter'),
-                  languages('Portuguese', 'Notícia'),
-                  languages('Russian', 'Новости'),
-                  languages('Chinese', '新闻'),
-                ])),
-          ),
           Padding(
             padding: const EdgeInsets.only(left: 10.0, top: 20.0),
             child: Text('Change Country',
