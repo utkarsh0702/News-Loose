@@ -51,25 +51,42 @@ class _SignUpState extends State<SignUp> {
   final List<String> errors = [];
   bool values = true;
 
-  void removeSignInError(){
-    setState(() {
-        errors.remove("SignUp Error Occured");
-      });
+  _showDialog(title, text){
+    showDialog(
+      context: context,
+      builder: (context){
+        return AlertDialog(
+          title: Text(title),
+          content: Text(text),
+          actions: [
+            FlatButton(
+              onPressed: (){
+                Navigator.of(context).pop();
+              }, 
+              child: Text('Ok'),
+              )
+          ],
+        );
+      }
+    );
   }
 
   void _register() async {
-    final FirebaseUser user = (await _auth.createUserWithEmailAndPassword(
+    try{
+    FirebaseUser user = (await _auth.createUserWithEmailAndPassword(
       email: emailtextController.text,
       password: passtextController.text,
-    )
-    ).user;
-    if (user != null) {
+    )).user;
+	if (user != null) {
+	change_value();
         Navigator.pushNamed(context, '/confirm');
-      } else {
-      setState(() {
-        errors.add("SignUp Error Occured");
-      });
-      Timer(Duration(seconds: 7), removeSignInError);
+      }
+    }catch(e){
+      print('Error is: $e');
+	  nametextController.text = "";
+      emailtextController.text = "";
+      passtextController.text = "";
+	  _showDialog('Error', 'Facing problem with creating an account.');
     }
   }
 
@@ -268,7 +285,6 @@ class _SignUpState extends State<SignUp> {
                             if (_formKey.currentState.validate() &&
                                 errors.isEmpty) {
                               _register();
-                              //change_value();
                               // try{
                               //   FirebaseUser user = (await FirebaseAuth.instance
                               //   .createUserWithEmailAndPassword(

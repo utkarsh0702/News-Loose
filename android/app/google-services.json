@@ -1,42 +1,33 @@
 {
   "project_info": {
-    "project_number": "844323816513",
-    "firebase_url": "https://neewsloose.firebaseio.com",
-    "project_id": "neewsloose",
-    "storage_bucket": "neewsloose.appspot.com"
+    "project_number": "1090373605634",
+    "project_id": "news-loose-cee4b",
+    "storage_bucket": "news-loose-cee4b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:844323816513:android:09436d939e1ab8530b32c0",
+        "mobilesdk_app_id": "1:1090373605634:android:f3502ab9b5f291c7de8a1b",
         "android_client_info": {
           "package_name": "com.example.NewsLoose"
         }
       },
       "oauth_client": [
         {
-          "client_id": "844323816513-fetbngdq6si5s2m8t3fsr3245l4u3lq3.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.NewsLoose",
-            "certificate_hash": "b4dcb9a1ed56b036a676bbaccbad148d0de02734"
-          }
-        },
-        {
-          "client_id": "844323816513-ivln10fr95btmluskafup60huloiig0b.apps.googleusercontent.com",
+          "client_id": "1090373605634-jlj5020i2ljnov1v0457fsujfc5abl3l.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCYrPYiBJeOb1EAZ_2RjPRRUXQdm5eZAS0"
+          "current_key": "AIzaSyAYmMXUwvz659ByPa1c3KTihvgvmyRgn9U"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "844323816513-ivln10fr95btmluskafup60huloiig0b.apps.googleusercontent.com",
+              "client_id": "1090373605634-jlj5020i2ljnov1v0457fsujfc5abl3l.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -45,17 +45,44 @@ class _LogInState extends State<LogIn> {
 
   void removeLogInError(){
     setState(() {
-        errors.remove("Login Failed. Please check your email and password");
+        errors.remove("Login Failed.");
+        errors.remove("Please check your email and password");
       });
   }
 
+  void removeError(){
+    setState(() {
+        errors.remove("No such account found");
+      });
+  }
+  _showDialog(title, text){
+    showDialog(
+      context: context,
+      builder: (context){
+        return AlertDialog(
+          title: Text(title),
+          content: Text(text),
+          actions: [
+            FlatButton(
+              onPressed: (){
+                Navigator.of(context).pop();
+              }, 
+              child: Text('Ok'),
+              )
+          ],
+        );
+      }
+    );
+  }
+
   void _loginInWithEmailAndPassword() async {
-    final FirebaseUser user = (await _auth.signInWithEmailAndPassword(
+    try{
+    FirebaseUser user = (await _auth.signInWithEmailAndPassword(
       email: emailtextController.text,
       password: passtextController.text,
     )).user;
-
-    if (user != null) {
+	if (user != null) {
+        change_value();
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -63,11 +90,13 @@ class _LogInState extends State<LogIn> {
           ),
               (route) => false,
         );
-    } else {
-      setState(() {
-        errors.add("Login Failed. Please check your email and password");
-      });
-      Timer(Duration(seconds: 7), removeLogInError);
+    }
+    }
+    catch(e){
+      print('Error is: $e');
+      emailtextController.text = "";
+      passtextController.text = "";
+	  _showDialog('LogIn Error', 'Please check your email and password.');
     }
   }
 
@@ -236,8 +265,6 @@ class _LogInState extends State<LogIn> {
                             if (_formKey.currentState.validate() &&
                                 errors.isEmpty) {
                               _loginInWithEmailAndPassword();
-
-                              //change_value();
                               // try{
                               //   FirebaseUser user=
                               //   (await FirebaseAuth.instance.signInWithEmailAndPassword(
