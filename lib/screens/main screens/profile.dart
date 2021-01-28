@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,6 +12,8 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
 
   SharedPreferences localStorage;
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
 
   Widget items(var icon, var text, var page) {
     return Expanded(
@@ -38,8 +41,21 @@ class _ProfileState extends State<Profile> {
                       "OF THE POSSIBILITY OF SUCH DAMAGE.")
                 ]);
           }
-          if (page == 'logout') {
-            localStorage = await SharedPreferences.getInstance();
+          if (page == 'logout')  {
+              // final FirebaseUser user =  await auth.currentUser();
+//               if (user == null) {
+// //6
+//                 Scaffold.of(context).showSnackBar(const SnackBar(
+//                   content: Text('No one has signed in.'),
+//                 ));
+//                 return;
+//               }
+              auth.signOut();
+              // final String uid = user.uid;
+              // Scaffold.of(context).showSnackBar(SnackBar(
+              //   content: Text(uid + ' has successfully signed out.'),
+              // ));
+              localStorage = await SharedPreferences.getInstance();
             await localStorage.setBool('login', true);
 
             Navigator.pushAndRemoveUntil(

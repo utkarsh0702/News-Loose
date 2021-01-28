@@ -1,6 +1,11 @@
+import 'dart:async';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'main screens/home.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUp extends StatefulWidget {
@@ -22,6 +27,10 @@ class _SignUpState extends State<SignUp> {
   var emailtextController = TextEditingController();
   var passtextController = TextEditingController();
   var nametextController = TextEditingController();
+  bool _success;
+  String _userEmail;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
 
   @override
   void initState() {
@@ -41,6 +50,28 @@ class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
   final List<String> errors = [];
   bool values = true;
+
+  void removeSignInError(){
+    setState(() {
+        errors.remove("SignUp Error Occured");
+      });
+  }
+
+  void _register() async {
+    final FirebaseUser user = (await _auth.createUserWithEmailAndPassword(
+      email: emailtextController.text,
+      password: passtextController.text,
+    )
+    ).user;
+    if (user != null) {
+        Navigator.pushNamed(context, '/confirm');
+      } else {
+      setState(() {
+        errors.add("SignUp Error Occured");
+      });
+      Timer(Duration(seconds: 7), removeSignInError);
+    }
+  }
 
   Widget formFields(String text, IconData icon, int val) {
     return Padding(
@@ -236,7 +267,8 @@ class _SignUpState extends State<SignUp> {
                           onPressed: () async {
                             if (_formKey.currentState.validate() &&
                                 errors.isEmpty) {
-                              change_value();
+                              _register();
+                              //change_value();
                               // try{
                               //   FirebaseUser user = (await FirebaseAuth.instance
                               //   .createUserWithEmailAndPassword(
@@ -246,7 +278,7 @@ class _SignUpState extends State<SignUp> {
                               //       UserUpdateInfo updateUser = UserUpdateInfo();
                               //       updateUser.displayName= name;
                               //       user.updateProfile(updateUser);
-                              Navigator.pushNamed(context, '/confirm');
+                              //Navigator.pushNamed(context, '/confirm');
                               //       }
                               //   }catch(e){
                               //     print(e);
@@ -341,4 +373,5 @@ class ErrorLine extends StatelessWidget {
           List.generate(errors.length, (index) => errorLine(errors[index])),
     );
   }
+
 }

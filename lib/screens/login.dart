@@ -1,4 +1,6 @@
 // import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:flutter/foundation.dart';
@@ -13,6 +15,7 @@ class LogIn extends StatefulWidget {
 class _LogInState extends State<LogIn> {
   // Shared Preferences
   SharedPreferences localStorage;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // ignore: non_constant_identifier_names
   void change_value() async {
@@ -38,6 +41,34 @@ class _LogInState extends State<LogIn> {
     passtextController.dispose();
     emailtextController.dispose();
     super.dispose();
+  }
+
+  void removeLogInError(){
+    setState(() {
+        errors.remove("Login Failed. Please check your email and password");
+      });
+  }
+
+  void _loginInWithEmailAndPassword() async {
+    final FirebaseUser user = (await _auth.signInWithEmailAndPassword(
+      email: emailtextController.text,
+      password: passtextController.text,
+    )).user;
+
+    if (user != null) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => NavBar(),
+          ),
+              (route) => false,
+        );
+    } else {
+      setState(() {
+        errors.add("Login Failed. Please check your email and password");
+      });
+      Timer(Duration(seconds: 7), removeLogInError);
+    }
   }
 
   //------------------------------Form Feilds---------------------//
@@ -204,20 +235,22 @@ class _LogInState extends State<LogIn> {
                           onPressed: () async {
                             if (_formKey.currentState.validate() &&
                                 errors.isEmpty) {
-                              change_value();
+                              _loginInWithEmailAndPassword();
+
+                              //change_value();
                               // try{
                               //   FirebaseUser user=
                               //   (await FirebaseAuth.instance.signInWithEmailAndPassword(
                               //     email: email, password: password,
                               //     )).user;
                               //     if(user != null){
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) => NavBar(),
-                                ),
-                                (route) => false,
-                              );
+                             // /* Navigator.pushAndRemoveUntil(
+                             //    context,
+                             //    MaterialPageRoute(
+                             //      builder: (BuildContext context) => NavBar(),
+                             //    ),
+                             //    (route) => false,
+                             //  );*/
                               //       }
                               //   }catch(e){
                               //     print(e);
