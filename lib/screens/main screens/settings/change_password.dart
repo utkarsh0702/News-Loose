@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ChangePassword extends StatefulWidget {
@@ -6,92 +7,112 @@ class ChangePassword extends StatefulWidget {
 }
 
 class _ChangePasswordState extends State<ChangePassword> {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  String oldPass = '', newPass = '';
+
+  Future<void> _change() async {
+    final FirebaseUser user = await auth.currentUser();
+    user.updatePassword(newPass);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Spacer(
+                flex: 1,
+              ),
+              Text(
+                'Settings',
+                style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.bold),
+              ),
+              Spacer(
+                flex: 2,
+              )
+            ],
+          ),
+          elevation: 0.0,
+        ),
+        body: ListView(
           children: [
-            Spacer(
-              flex: 1,
+            Padding(
+              padding: const EdgeInsets.only(left: 10.0, top: 20.0),
+              child: Text('Password Change',
+                  style:
+                      TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold)),
             ),
-            Text(
-              'Settings',
-              style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                  fontWeight: FontWeight.bold),
+            Padding(
+              padding:
+                  const EdgeInsets.only(top: 10.0, left: 30.0, right: 30.0),
+              child: TextField(
+                onSubmitted: (String pass) {
+                  oldPass = pass;
+                },
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0)),
+                  hintText: 'Enter Old Password',
+                ),
+              ),
             ),
-            Spacer(
-              flex: 2,
+            Padding(
+              padding:
+                  const EdgeInsets.only(top: 10.0, left: 30.0, right: 30.0),
+              child: TextField(
+                onSubmitted: (String pass) {
+                  newPass = pass;
+                },
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0)),
+                  hintText: 'Enter New Password',
+                ),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: MaterialButton(
+                      minWidth: 150.0,
+                      height: 50.0,
+                      onPressed: () {
+                        _change();
+                      },
+                      color: Theme.of(context).accentColor,
+                      elevation: 20,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('Save', style: TextStyle(fontSize: 20.0)),
+                      )),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: MaterialButton(
+                      minWidth: 150.0,
+                      height: 50.0,
+                      onPressed: () {},
+                      color: Theme.of(context).accentColor,
+                      elevation: 20,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('Cancle', style: TextStyle(fontSize: 20.0)),
+                      )),
+                ),
+              ],
             )
           ],
-        ),
-        elevation: 0.0,
-      ),
-      body: ListView(children: [
-        Padding(
-            padding: const EdgeInsets.only(left: 10.0, top: 20.0),
-            child: Text('Password Change',
-                style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold)),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10.0, left: 30.0, right: 30.0),
-            child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0)),
-                      hintText: 'Enter Old Password',
-                    ),
-                  ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10.0, left: 30.0, right: 30.0),
-            child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0)),
-                      hintText: 'Enter New Password',
-                    ),
-                  ),
-          ),
-          Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: MaterialButton(
-                          minWidth: 150.0,
-                          height:50.0,
-                          onPressed: () {},
-                          color: Theme.of(context).accentColor,
-                          elevation: 20,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text('Save', style:TextStyle(fontSize:20.0)),
-                          )),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: MaterialButton(
-                          minWidth: 150.0,
-                          height:50.0,
-                          onPressed: () {},
-                          color: Theme.of(context).accentColor,
-                          elevation: 20,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text('Cancle', style:TextStyle(fontSize:20.0)),
-                          )),
-                    ),
-                  ],
-                )
-      ],)
-    );
+        ));
   }
 }

@@ -10,10 +10,8 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-
   SharedPreferences localStorage;
   final FirebaseAuth auth = FirebaseAuth.instance;
-
 
   Widget items(var icon, var text, var page) {
     return Expanded(
@@ -25,8 +23,7 @@ class _ProfileState extends State<Profile> {
                 applicationIcon: FlutterLogo(),
                 applicationName: 'NewsLoose',
                 applicationVersion: '0.0.1',
-                applicationLegalese:
-                    "Developed on Utkarsh Mishra",
+                applicationLegalese: "Developed on Utkarsh Mishra",
                 children: [
                   SizedBox(
                     height: 10.0,
@@ -41,21 +38,10 @@ class _ProfileState extends State<Profile> {
                       "OF THE POSSIBILITY OF SUCH DAMAGE.")
                 ]);
           }
-          if (page == 'logout')  {
-              // final FirebaseUser user =  await auth.currentUser();
-//               if (user == null) {
-// //6
-//                 Scaffold.of(context).showSnackBar(const SnackBar(
-//                   content: Text('No one has signed in.'),
-//                 ));
-//                 return;
-//               }
-              auth.signOut();
-              // final String uid = user.uid;
-              // Scaffold.of(context).showSnackBar(SnackBar(
-              //   content: Text(uid + ' has successfully signed out.'),
-              // ));
-              localStorage = await SharedPreferences.getInstance();
+          if (page == 'logout') {
+            await auth.signOut();
+
+            localStorage = await SharedPreferences.getInstance();
             await localStorage.setBool('login', true);
 
             Navigator.pushAndRemoveUntil(
@@ -65,8 +51,7 @@ class _ProfileState extends State<Profile> {
               ),
               (route) => false,
             );
-          }
-          else{
+          } else {
             Navigator.pushNamed(context, page);
           }
         },
@@ -138,8 +123,7 @@ class _ProfileState extends State<Profile> {
                 image: DecorationImage(
                   image: AssetImage('assets/avatar/avatar1.png'),
                   fit: BoxFit.contain,
-                )
-              ),
+                )),
           ),
           Container(
               height: 350.0,
@@ -169,7 +153,8 @@ class _ProfileState extends State<Profile> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom:8.0),
+                    padding: const EdgeInsets.only(
+                        left: 8.0, right: 8.0, bottom: 8.0),
                     child: Expanded(
                       child: Text('utkarsh07022000@gmail.com',
                           style: TextStyle(

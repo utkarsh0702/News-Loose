@@ -35,6 +35,7 @@ class _LogInState extends State<LogIn> {
     // TODO: implement initState
     super.initState();
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -43,60 +44,60 @@ class _LogInState extends State<LogIn> {
     super.dispose();
   }
 
-  void removeLogInError(){
+  void removeLogInError() {
     setState(() {
-        errors.remove("Login Failed.");
-        errors.remove("Please check your email and password");
-      });
+      errors.remove("Login Failed.");
+      errors.remove("Please check your email and password");
+    });
   }
 
-  void removeError(){
+  void removeError() {
     setState(() {
-        errors.remove("No such account found");
-      });
+      errors.remove("No such account found");
+    });
   }
-  _showDialog(title, text){
+
+  _showDialog(title, text) {
     showDialog(
-      context: context,
-      builder: (context){
-        return AlertDialog(
-          title: Text(title),
-          content: Text(text),
-          actions: [
-            FlatButton(
-              onPressed: (){
-                Navigator.of(context).pop();
-              }, 
-              child: Text('Ok'),
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(title),
+            content: Text(text),
+            actions: [
+              FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Ok'),
               )
-          ],
-        );
-      }
-    );
+            ],
+          );
+        });
   }
 
   void _loginInWithEmailAndPassword() async {
-    try{
-    FirebaseUser user = (await _auth.signInWithEmailAndPassword(
-      email: emailtextController.text,
-      password: passtextController.text,
-    )).user;
-	if (user != null) {
+    try {
+      FirebaseUser user = (await _auth.signInWithEmailAndPassword(
+        email: emailtextController.text,
+        password: passtextController.text,
+      ))
+          .user;
+      if (user != null) {
         change_value();
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
             builder: (BuildContext context) => NavBar(),
           ),
-              (route) => false,
+          (route) => false,
         );
-    }
-    }
-    catch(e){
+      }
+    } catch (e) {
       print('Error is: $e');
       emailtextController.text = "";
       passtextController.text = "";
-	  _showDialog('LogIn Error', 'Please check your email and password.');
+      _showDialog('LogIn Error', 'Please check your email and password.');
     }
   }
 
@@ -166,7 +167,8 @@ class _LogInState extends State<LogIn> {
               return null;
             },
             obscureText: (pass == true && val == true) ? true : false,
-            controller: (pass == true) ? passtextController : emailtextController,
+            controller:
+                (pass == true) ? passtextController : emailtextController,
             style: TextStyle(decoration: TextDecoration.none),
             decoration: InputDecoration(
               prefixIcon: Icon(
@@ -174,7 +176,7 @@ class _LogInState extends State<LogIn> {
                 color: Colors.white,
               ),
               hintText: text,
-              hintStyle: TextStyle(color:Colors.white60),
+              hintStyle: TextStyle(color: Colors.white60),
               suffixIcon: pass == true
                   ? IconButton(
                       icon: (val == true)
@@ -194,8 +196,7 @@ class _LogInState extends State<LogIn> {
                   : Icon(null),
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20.0),
-                  borderSide: BorderSide(
-                      width: 2.0, color: Colors.white)),
+                  borderSide: BorderSide(width: 2.0, color: Colors.white)),
             )));
   }
 
@@ -265,28 +266,6 @@ class _LogInState extends State<LogIn> {
                             if (_formKey.currentState.validate() &&
                                 errors.isEmpty) {
                               _loginInWithEmailAndPassword();
-                              // try{
-                              //   FirebaseUser user=
-                              //   (await FirebaseAuth.instance.signInWithEmailAndPassword(
-                              //     email: email, password: password,
-                              //     )).user;
-                              //     if(user != null){
-                             // /* Navigator.pushAndRemoveUntil(
-                             //    context,
-                             //    MaterialPageRoute(
-                             //      builder: (BuildContext context) => NavBar(),
-                             //    ),
-                             //    (route) => false,
-                             //  );*/
-                              //       }
-                              //   }catch(e){
-                              //     print(e);
-                              //     email="";
-                              //     password= "";
-                              //   }
-                              // }
-                              // ignore: todo
-                              // TODO: Firebase Athentication
                             }
                           },
                           color: Colors.transparent,

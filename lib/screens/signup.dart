@@ -4,8 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'main screens/home.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUp extends StatefulWidget {
@@ -27,10 +25,7 @@ class _SignUpState extends State<SignUp> {
   var emailtextController = TextEditingController();
   var passtextController = TextEditingController();
   var nametextController = TextEditingController();
-  bool _success;
-  String _userEmail;
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
 
   @override
   void initState() {
@@ -51,42 +46,43 @@ class _SignUpState extends State<SignUp> {
   final List<String> errors = [];
   bool values = true;
 
-  _showDialog(title, text){
+  _showDialog(title, text) {
     showDialog(
-      context: context,
-      builder: (context){
-        return AlertDialog(
-          title: Text(title),
-          content: Text(text),
-          actions: [
-            FlatButton(
-              onPressed: (){
-                Navigator.of(context).pop();
-              }, 
-              child: Text('Ok'),
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(title),
+            content: Text(text),
+            actions: [
+              FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Ok'),
               )
-          ],
-        );
-      }
-    );
+            ],
+          );
+        });
   }
 
   void _register() async {
-    try{
-    FirebaseUser user = (await _auth.createUserWithEmailAndPassword(
-      email: emailtextController.text,
-      password: passtextController.text,
-    )).user;
-	if (user != null) {
-	change_value();
+    try {
+      FirebaseUser user = (await _auth.createUserWithEmailAndPassword(
+        email: emailtextController.text,
+        password: passtextController.text,
+      ))
+          .user;
+      if (user != null) {
+        change_value();
         Navigator.pushNamed(context, '/confirm');
       }
-    }catch(e){
+    } catch (e) {
       print('Error is: $e');
-	  nametextController.text = "";
+      nametextController.text = "";
       emailtextController.text = "";
       passtextController.text = "";
-	  _showDialog('Error', 'Facing problem with creating an account.');
+      _showDialog('Error',
+          'Facing problem with creating the account. Account Already exists..');
     }
   }
 
@@ -285,26 +281,7 @@ class _SignUpState extends State<SignUp> {
                             if (_formKey.currentState.validate() &&
                                 errors.isEmpty) {
                               _register();
-                              // try{
-                              //   FirebaseUser user = (await FirebaseAuth.instance
-                              //   .createUserWithEmailAndPassword(
-                              //     email: email, password: password
-                              //     )).user;
-                              //     if(user != null){
-                              //       UserUpdateInfo updateUser = UserUpdateInfo();
-                              //       updateUser.displayName= name;
-                              //       user.updateProfile(updateUser);
-                              //Navigator.pushNamed(context, '/confirm');
-                              //       }
-                              //   }catch(e){
-                              //     print(e);
-                              //     name="";
-                              //     email= "";
-                              //     password= "";
-                              //   }
-                              // }
-                              // ignore: todo
-                              // TODO: Firebase Authentication
+                              
                             }
                           },
                           color: Colors.transparent,
@@ -389,5 +366,4 @@ class ErrorLine extends StatelessWidget {
           List.generate(errors.length, (index) => errorLine(errors[index])),
     );
   }
-
 }

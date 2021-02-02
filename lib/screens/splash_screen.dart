@@ -43,6 +43,7 @@ class _SplashState extends State<Splash> {
           }
         } on SocketException catch (_) {
           _showDialog('No Internet', 'You are not connected to network.');
+		  Timer(Duration(seconds: 5), finished);
         }
     }
 
