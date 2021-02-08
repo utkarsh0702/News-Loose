@@ -27,13 +27,11 @@ class _SignUpState extends State<SignUp> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     passtextController.dispose();
     emailtextController.dispose();
     super.dispose();
@@ -52,7 +50,7 @@ class _SignUpState extends State<SignUp> {
             title: Text(title),
             content: Text(text),
             actions: [
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },

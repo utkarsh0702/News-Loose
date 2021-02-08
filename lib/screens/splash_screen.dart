@@ -55,7 +55,7 @@ class _SplashState extends State<Splash> {
           title: Text(title),
           content: Text(text),
           actions: [
-            FlatButton(
+            TextButton(
               onPressed: (){
                 Navigator.of(context).pop();
               }, 

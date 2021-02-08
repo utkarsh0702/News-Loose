@@ -31,13 +31,11 @@ class _LogInState extends State<LogIn> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     passtextController.dispose();
     emailtextController.dispose();
     super.dispose();
@@ -64,7 +62,7 @@ class _LogInState extends State<LogIn> {
             title: Text(title),
             content: Text(text),
             actions: [
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -253,6 +251,27 @@ class _LogInState extends State<LogIn> {
                 children: [
                   formFields('Email', Icons.email, false),
                   formFields('Password', Icons.lock, true),
+                  Row(
+                children: [
+                  Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.only(right:10.0, top:10.0, bottom:10.0),
+                    child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, '');
+                        },
+                        child: FittedBox(
+                          fit: BoxFit.fitWidth,
+                          child: Text(
+                            "Forgot Password",
+                            style: TextStyle(
+                                color: Colors.deepPurple[800], fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                  ),
+                ],
+              ),
                   ErrorLine(
                     errors: errors,
                   ),
