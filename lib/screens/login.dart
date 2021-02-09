@@ -255,10 +255,10 @@ class _LogInState extends State<LogIn> {
                 children: [
                   Spacer(),
                   Padding(
-                    padding: const EdgeInsets.only(right:10.0, top:10.0, bottom:10.0),
+                    padding: const EdgeInsets.only(right:30.0, top:10.0, bottom:10.0),
                     child: GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, '');
+                          Navigator.pushNamed(context, '/forgot');
                         },
                         child: FittedBox(
                           fit: BoxFit.fitWidth,
