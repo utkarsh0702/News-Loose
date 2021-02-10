@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -42,6 +42,9 @@ class _SignUpState extends State<SignUp> {
   final List<String> errors = [];
   bool values = true;
 
+  //------------------------- firestore --------------------------------//
+  final CollectionReference userCollection = Firestore.instance.collection('User Data');
+
   _showDialog(title, text) {
     showDialog(
         context: context,
@@ -61,6 +64,15 @@ class _SignUpState extends State<SignUp> {
         });
   }
 
+  Future updateUserData(String name, String uid, String email) async {
+    return await userCollection.document(uid).setData({
+      'Email Id': email,
+      'Name': name,
+      'Image Number': 0,
+      'Country': 'in',
+    });
+  }
+
   void _register() async {
     try {
       FirebaseUser user = (await _auth.createUserWithEmailAndPassword(
@@ -68,7 +80,9 @@ class _SignUpState extends State<SignUp> {
         password: passtextController.text,
       ))
           .user;
+
       if (user != null) {
+        updateUserData(nametextController.text, user.uid, emailtextController.text);
         change_value();
         Navigator.pushNamed(context, '/confirm');
       }
@@ -277,7 +291,6 @@ class _SignUpState extends State<SignUp> {
                             if (_formKey.currentState.validate() &&
                                 errors.isEmpty) {
                               _register();
-                              
                             }
                           },
                           color: Colors.transparent,
