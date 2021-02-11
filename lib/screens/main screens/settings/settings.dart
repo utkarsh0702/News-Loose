@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:NewsLoose/helper/image_lookup.dart';
 import 'change_avatar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -10,9 +12,36 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  String name = 'Utkarsh Mishra', temp = '';
+  String name = '', temp = '';
   bool change = false;
   int number = 1;
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
+  assignValues() async {
+    final FirebaseUser user = await auth.currentUser();
+    Firestore.instance.collection('User Data').document(user.uid).get().then((DocumentSnapshot ds){
+      name = ds['Name'];
+      number = ds['Image Number'];
+    });
+  }
+  updateImage() async{
+    final FirebaseUser user = await auth.currentUser();
+    Firestore.instance.collection('User Data').document(user.uid).updateData({
+      'Image Number' : number
+      });
+  }
+  updateName() async{
+    final FirebaseUser user = await auth.currentUser();
+    Firestore.instance.collection('User Data').document(user.uid).updateData({
+      'Name' : name
+      });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    assignValues();
+  }
 
   //--------------------------Horizontal Sliding Country List----------------------//
   Widget countryFlags(String flagName, String countryName) {
@@ -64,6 +93,7 @@ class _SettingsState extends State<Settings> {
     // after the SecondScreen result comes back update the Text widget with it
     setState(() {
       number = result;
+      updateImage();
     });
   }
 
@@ -165,6 +195,7 @@ class _SettingsState extends State<Settings> {
                                 onPressed: () {
                                   setState(() {
                                     name = temp;
+                                    updateName();
                                     change = false;
                                   });
                                 },
