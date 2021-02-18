@@ -2,6 +2,7 @@ import 'package:NewsLoose/helper/article.dart';
 import 'package:NewsLoose/helper/news.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'category/category_page.dart';
 import 'package:flutter/material.dart';
 import 'article_page.dart';
@@ -91,9 +92,34 @@ class _HomePageState extends State<HomePage> {
     News news = News();
     await news.getNews();
     article = news.news;
-    setState(() {
-      _loading = false;
-    });
+    if (article.isEmpty) {
+      _showDialog('Error',
+          'Seems like some kind of error. Press the button to fix it...');
+    }
+    if (mounted) {
+      setState(() {
+        _loading = false;
+      });
+    }
+  }
+
+  _showDialog(title, text) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(title),
+            content: Text(text),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Phoenix.rebirth(context);
+                },
+                child: Text('Ok'),
+              )
+            ],
+          );
+        });
   }
 
   @override
@@ -218,14 +244,12 @@ class CarouselItems extends StatelessWidget {
             fit: BoxFit.fill,
           ),
         ),
-        child:Align(
+        child: Align(
           alignment: Alignment.bottomCenter,
-          child:Padding(
+          child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(
-              title,
-              style:TextStyle(fontSize:20.0, color:Colors.white)
-            ),
+            child: Text(title,
+                style: TextStyle(fontSize: 20.0, color: Colors.white)),
           ),
         ),
       ),

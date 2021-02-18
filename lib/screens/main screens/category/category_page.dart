@@ -2,6 +2,7 @@ import 'package:NewsLoose/helper/article.dart';
 import 'package:NewsLoose/screens/main%20screens/article_page.dart';
 import 'package:flutter/material.dart';
 import 'package:NewsLoose/helper/news.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 class CategoryPage extends StatefulWidget {
 
@@ -27,10 +28,34 @@ getCategoryNews() async{
   CategoryNews news= CategoryNews();
   await news.getCategoryNews(widget.category);
   article= news.news;
+  if(article.isEmpty){
+      _showDialog('Error', 'Seems like some kind of error. Press the button to fix it...');
+    }
   setState(() {
     _loading = false;
   });
 }
+
+ _showDialog(title, text){
+    showDialog(
+      context: context,
+      builder: (context){
+        return AlertDialog(
+          title: Text(title),
+          content: Text(text),
+          actions: [
+            TextButton(
+              onPressed: (){
+                Phoenix.rebirth(context);
+              }, 
+              child: Text('Ok'),
+              )
+          ],
+        );
+      }
+    );
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

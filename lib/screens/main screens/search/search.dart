@@ -10,7 +10,7 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   
   DateTime today = DateTime.now();
-  DateTime fromselectedDate = DateTime(2021);
+  DateTime fromselectedDate = DateTime(DateTime.now().year, DateTime.now().month - 1, DateTime.now().day + 1);
   DateTime toselectedDate = DateTime.now();
   String query = "";
   String currentCon = 'All';
@@ -29,7 +29,7 @@ class _SearchState extends State<Search> {
     final DateTime picked = await showDatePicker(
       context: context,
       initialDate: date ? fromselectedDate : toselectedDate, 
-      firstDate: DateTime(today.year, today.month - 1, today.day),
+      firstDate: DateTime(today.year, today.month - 1, today.day + 1),
       lastDate: DateTime.now(),
     );
     if (picked != null && picked != fromselectedDate && date == true)

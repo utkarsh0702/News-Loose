@@ -1,8 +1,10 @@
+import 'package:NewsLoose/screens/main%20screens/dialogs/policy.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'main screens/dialogs/policy.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -319,14 +321,61 @@ class _SignUpState extends State<SignUp> {
           Padding(
             padding:
                 const EdgeInsets.only(bottom: 20.0, right: 20.0, left: 20.0),
-            child: Expanded(
-                child: Text(
-              'By clicking you confirm that you agree with our Terms and Conditions',
-              textAlign: TextAlign.center,
-              style: TextStyle(
+            child: Wrap(
+              alignment: WrapAlignment.center,
+              children: [
+                Text(
+                  'By clicking you confirm that you agree with our',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
                 fontWeight: FontWeight.bold,
-              ),
-            )),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: (){
+                    showDialog(
+                      context: context,
+                      builder: (context){
+                        return Policy(mdFileName: 'terms&conditions.md',);
+                      }
+                    );
+                  },
+                  child: Text(
+                    'Terms & Conditions',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.yellow[900],
+                  fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Text(
+                  'and',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                fontWeight: FontWeight.bold,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: (){
+                    showDialog(
+                      context: context,
+                      builder: (context){
+                        return Policy(mdFileName: 'privacypolicy.md',);
+                      }
+                    );
+                  },
+                  child: Text(
+                    'Private Policy',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.yellow[900],
+                  fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           )
         ]),
       ),

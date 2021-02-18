@@ -10,16 +10,21 @@ import 'screens/confirmation_page.dart';
 import 'screens/main screens/nav.dart';
 import 'screens/main screens/settings/about.dart';
 import 'screens/main screens/settings/settings.dart';
-import'screens/main screens/settings/change_password.dart';
+import 'screens/main screens/settings/change_password.dart';
 import 'screens/forgot_password.dart';
-void main(){
-  runApp(myApp());
+import 'package:flutter_phoenix/flutter_phoenix.dart';
+
+void main() {
+  
+  ErrorWidget.builder = (FlutterErrorDetails errorDetails) => Container();
+  runApp(Phoenix(child: myApp()));
 }
 
 // ignore: camel_case_types
 class myApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       routes: {
         '/reg': (context) => RegPage(),
