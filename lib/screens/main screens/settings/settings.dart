@@ -5,6 +5,7 @@ import 'package:NewsLoose/helper/lookup.dart';
 import 'change_avatar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:toast/toast.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -22,13 +23,13 @@ class _SettingsState extends State<Settings> {
   }
 
   @override
-  void initState() { 
+  void initState() {
     super.initState();
     assignValues();
   }
 
   @override
-  void dispose() { 
+  void dispose() {
     _nameController.dispose();
     super.dispose();
   }
@@ -61,34 +62,38 @@ class _SettingsState extends State<Settings> {
   Widget countryFlags(String flagName, String countryName) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Card(
-        color: Colors.transparent,
-        elevation: 10.0,
-        child: Container(
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20.0),
-              border: Border.all(
-                  color: Theme.of(context).primaryColor, width: 2.0)),
-          child: Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Column(
-              children: [
-                Container(
-                  width: 100.0,
-                  height: 50.0,
-                  child: RawMaterialButton(
-                    onPressed: () {},
+      child: GestureDetector(
+        onTap: () {
+          updateCountry(flagName.toLowerCase());
+          Toast.show("Country Changes to $countryName", context,
+              duration: Toast.LENGTH_SHORT, gravity: Toast.CENTER);
+        },
+        child: Card(
+          color: Colors.transparent,
+          elevation: 10.0,
+          child: Container(
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20.0),
+                border: Border.all(
+                    color: Theme.of(context).primaryColor, width: 2.0)),
+            child: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Column(
+                children: [
+                  Container(
+                    width: 100.0,
+                    height: 50.0,
                     child: Flag(
-                      flagName,
-                      height: 50.0,
-                      width: 100.0,
-                      fit: BoxFit.fill,
-                    ),
+                        flagName,
+                        height: 50.0,
+                        width: 100.0,
+                        fit: BoxFit.fill,
+                      ),
                   ),
-                ),
-                Text(countryName, style: TextStyle(fontFamily: 'Langar'))
-              ],
+                  Text(countryName, style: TextStyle(fontFamily: 'Langar'))
+                ],
+              ),
             ),
           ),
         ),
@@ -112,7 +117,6 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -158,7 +162,8 @@ class _SettingsState extends State<Settings> {
                         border: Border.all(
                             color: Theme.of(context).accentColor, width: 5),
                         image: DecorationImage(
-                          image: AssetImage(imageLookUp(snapshot.data['Image Number'])),
+                          image: AssetImage(
+                              imageLookUp(snapshot.data['Image Number'])),
                           fit: BoxFit.contain,
                         )),
                     child: Align(
@@ -251,7 +256,8 @@ class _SettingsState extends State<Settings> {
                       : Padding(
                           padding: const EdgeInsets.only(left: 30.0, top: 10.0),
                           child: Row(children: [
-                            Text(snapshot.data['Name'], style: TextStyle(fontSize: 20.0)),
+                            Text(snapshot.data['Name'],
+                                style: TextStyle(fontSize: 20.0)),
                             Spacer(),
                             Padding(
                               padding: const EdgeInsets.only(right: 20.0),

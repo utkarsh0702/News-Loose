@@ -111,3 +111,28 @@ class SearchNews{
     }
   }
 }
+
+class PersonalNews{
+  List<PersonalArticle> news = [];
+
+  Future<void> getPersonalNews() async{
+
+    String url= 'https://utkarsh.pythonanywhere.com/?format=json';
+
+    var response = await http.get(url);
+
+    var jsonData = jsonDecode(response.body);
+
+    // if (jsonData['status'] == 'ok'){
+      jsonData.forEach((element){
+          PersonalArticle article = PersonalArticle(
+            title: element["title"],
+            image_url: element['image_url'],
+            content: element['content'],
+            date: element['date'],
+          );
+          news.add(article);
+      });
+    // }
+  }
+}
