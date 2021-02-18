@@ -68,7 +68,7 @@ class _SignUpState extends State<SignUp> {
     return await userCollection.document(uid).setData({
       'Email Id': email,
       'Name': name,
-      'Image Number': 0,
+      'Image Number': 1,
       'Country': 'in',
     });
   }

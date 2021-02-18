@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:NewsLoose/helper/image_lookup.dart';
+import 'package:NewsLoose/helper/lookup.dart';
 
 class ChangeAvatar extends StatefulWidget {
   @override

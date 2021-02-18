@@ -1,7 +1,7 @@
 import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
-import 'package:NewsLoose/helper/image_lookup.dart';
+import 'package:NewsLoose/helper/lookup.dart';
 import 'change_avatar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,35 +12,49 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  String name = '', temp = '';
   bool change = false;
-  int number = 1;
   final FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseUser user;
+  TextEditingController _nameController = TextEditingController();
 
   assignValues() async {
-    final FirebaseUser user = await auth.currentUser();
-    Firestore.instance.collection('User Data').document(user.uid).get().then((DocumentSnapshot ds){
-      name = ds['Name'];
-      number = ds['Image Number'];
-    });
-  }
-  updateImage() async{
-    final FirebaseUser user = await auth.currentUser();
-    Firestore.instance.collection('User Data').document(user.uid).updateData({
-      'Image Number' : number
-      });
-  }
-  updateName() async{
-    final FirebaseUser user = await auth.currentUser();
-    Firestore.instance.collection('User Data').document(user.uid).updateData({
-      'Name' : name
-      });
+    user = await auth.currentUser();
   }
 
   @override
-  void initState() {
+  void initState() { 
     super.initState();
     assignValues();
+  }
+
+  @override
+  void dispose() { 
+    _nameController.dispose();
+    super.dispose();
+  }
+
+  updateImage(int number) async {
+    final FirebaseUser user = await auth.currentUser();
+    Firestore.instance
+        .collection('User Data')
+        .document(user.uid)
+        .updateData({'Image Number': number});
+  }
+
+  updateName(String name) async {
+    final FirebaseUser user = await auth.currentUser();
+    Firestore.instance
+        .collection('User Data')
+        .document(user.uid)
+        .updateData({'Name': name});
+  }
+
+  updateCountry(String country) async {
+    final FirebaseUser user = await auth.currentUser();
+    Firestore.instance
+        .collection('User Data')
+        .document(user.uid)
+        .updateData({'Country': country});
   }
 
   //--------------------------Horizontal Sliding Country List----------------------//
@@ -92,222 +106,234 @@ class _SettingsState extends State<Settings> {
 
     // after the SecondScreen result comes back update the Text widget with it
     setState(() {
-      number = result;
-      updateImage();
+      updateImage(result);
     });
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Spacer(
-              flex: 1,
-            ),
-            Text(
-              'Settings',
-              style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                  fontWeight: FontWeight.bold),
-            ),
-            Spacer(
-              flex: 2,
-            )
-          ],
-        ),
-        elevation: 0.0,
-      ),
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 10.0, top: 20.0),
-            child: Text('Change Avatar',
-                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
-          ),
-          Container(
-            height: 120.0,
-            width: 120.0,
-            margin: EdgeInsets.only(top: 10),
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border:
-                    Border.all(color: Theme.of(context).accentColor, width: 5),
-                image: DecorationImage(
-                  image: AssetImage(imageLookUp(number)),
-                  fit: BoxFit.contain,
-                )),
-            child: Align(
-              alignment: Alignment.lerp(
-                  Alignment.bottomCenter, Alignment.bottomRight, 0.25),
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _awaitReturnValueFromSecondScreen(context);
-                  });
-                },
-                child: Container(
-                  height: 30,
-                  width: 30,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.yellow[900],
-                  ),
-                  child: Icon(
-                    LineAwesomeIcons.pencil,
-                    size: 20.0,
-                  ),
-                ),
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Spacer(
+                flex: 1,
               ),
-            ),
+              Text(
+                'Settings',
+                style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.bold),
+              ),
+              Spacer(
+                flex: 2,
+              )
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 10.0, top: 20.0),
-            child: Text('Change Name',
-                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
-          ),
-          change
-              ? Padding(
-                  padding:
-                      const EdgeInsets.only(top: 10.0, left: 30.0, right: 30.0),
-                  child: Column(
-                    children: [
-                      TextField(
-                        onChanged: (value) {
-                          temp = value;
+          elevation: 0.0,
+        ),
+        body: StreamBuilder(
+            stream: Firestore.instance
+                .collection('User Data')
+                .document(user.uid)
+                .snapshots(),
+            builder: (context, snapshot) {
+              return ListView(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0, top: 20.0),
+                    child: Text('Change Avatar',
+                        style: TextStyle(
+                            fontSize: 20.0, fontWeight: FontWeight.bold)),
+                  ),
+                  Container(
+                    height: 120.0,
+                    width: 120.0,
+                    margin: EdgeInsets.only(top: 10),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                            color: Theme.of(context).accentColor, width: 5),
+                        image: DecorationImage(
+                          image: AssetImage(imageLookUp(snapshot.data['Image Number'])),
+                          fit: BoxFit.contain,
+                        )),
+                    child: Align(
+                      alignment: Alignment.lerp(
+                          Alignment.bottomCenter, Alignment.bottomRight, 0.25),
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _awaitReturnValueFromSecondScreen(context);
+                          });
                         },
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20.0)),
-                          hintText: 'Enter Name',
+                        child: Container(
+                          height: 30,
+                          width: 30,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.yellow[900],
+                          ),
+                          child: Icon(
+                            LineAwesomeIcons.pencil,
+                            size: 20.0,
+                          ),
                         ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: MaterialButton(
-                                minWidth: 100.0,
-                                onPressed: () {
-                                  setState(() {
-                                    name = temp;
-                                    updateName();
-                                    change = false;
-                                  });
-                                },
-                                color: Theme.of(context).accentColor,
-                                elevation: 20,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20)),
-                                child: Text('Save')),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: MaterialButton(
-                                minWidth: 100.0,
-                                onPressed: () {
-                                  setState(() {
-                                    change = false;
-                                  });
-                                },
-                                color: Theme.of(context).accentColor,
-                                elevation: 20,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20)),
-                                child: Text('Cancle')),
-                          ),
-                        ],
-                      )
-                    ],
+                    ),
                   ),
-                )
-              : Padding(
-                  padding: const EdgeInsets.only(left: 30.0, top: 10.0),
-                  child: Row(children: [
-                    Text(name, style: TextStyle(fontSize: 20.0)),
-                    Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 20.0),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0, top: 20.0),
+                    child: Text('Change Name',
+                        style: TextStyle(
+                            fontSize: 20.0, fontWeight: FontWeight.bold)),
+                  ),
+                  change
+                      ? Padding(
+                          padding: const EdgeInsets.only(
+                              top: 10.0, left: 30.0, right: 30.0),
+                          child: Column(
+                            children: [
+                              TextField(
+                                controller: _nameController,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(20.0)),
+                                  hintText: 'Enter Name',
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: MaterialButton(
+                                        minWidth: 100.0,
+                                        onPressed: () {
+                                          setState(() {
+                                            updateName(_nameController.text);
+                                            change = false;
+                                          });
+                                        },
+                                        color: Theme.of(context).accentColor,
+                                        elevation: 20,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        child: Text('Save')),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: MaterialButton(
+                                        minWidth: 100.0,
+                                        onPressed: () {
+                                          setState(() {
+                                            change = false;
+                                          });
+                                        },
+                                        color: Theme.of(context).accentColor,
+                                        elevation: 20,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        child: Text('Cancle')),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.only(left: 30.0, top: 10.0),
+                          child: Row(children: [
+                            Text(snapshot.data['Name'], style: TextStyle(fontSize: 20.0)),
+                            Spacer(),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 20.0),
+                              child: MaterialButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      change = true;
+                                    });
+                                  },
+                                  color: Theme.of(context).accentColor,
+                                  elevation: 20,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: Text('Change')),
+                            )
+                          ]),
+                        ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0, top: 20.0),
+                    child: Text('Change Country',
+                        style: TextStyle(
+                            fontSize: 20.0, fontWeight: FontWeight.bold)),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width - 30,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.0),
+                      // color: Colors.grey[300],
+                    ),
+                    child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(children: <Widget>[
+                          countryFlags('IN', 'India'),
+                          countryFlags('US', 'United States of America'),
+                          countryFlags('GB', 'United Kingdom'),
+                          countryFlags('AE', 'United Arab Emirates'),
+                          countryFlags('UA', 'Ukraine'),
+                          countryFlags('TR', 'Turkey'),
+                          countryFlags('TH', 'Thailand'),
+                          countryFlags('CH', 'Switzerland'),
+                          countryFlags('SE', 'Sweden'),
+                          countryFlags('SA', 'Saudi Arabia'),
+                          countryFlags('PL', 'Poland'),
+                          countryFlags('NZ', 'New Zealand'),
+                          countryFlags('MX', 'Mexico'),
+                          countryFlags('JP', 'Japan'),
+                          countryFlags('BR', 'Brazil'),
+                          countryFlags('AU', 'Australia'),
+                        ])),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0, top: 20.0),
+                    child: Text('Change Password',
+                        style: TextStyle(
+                            fontSize: 20.0, fontWeight: FontWeight.bold)),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 30.0, right: 30.0, top: 20.0, bottom: 30.0),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width - 70,
                       child: MaterialButton(
                           onPressed: () {
-                            setState(() {
-                              change = true;
-                            });
+                            Navigator.pushNamed(context, '/changePassword');
                           },
                           color: Theme.of(context).accentColor,
+                          splashColor: Theme.of(context).primaryColor,
                           elevation: 20,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20)),
-                          child: Text('Change')),
-                    )
-                  ]),
-                ),
-          Padding(
-            padding: const EdgeInsets.only(left: 10.0, top: 20.0),
-            child: Text('Change Country',
-                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width - 30,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.0),
-              // color: Colors.grey[300],
-            ),
-            child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(children: <Widget>[
-                  countryFlags('IN', 'India'),
-                  countryFlags('US', 'United States of America'),
-                  countryFlags('GB', 'United Kingdom'),
-                  countryFlags('AE', 'United Arab Emirates'),
-                  countryFlags('UA', 'Ukraine'),
-                  countryFlags('TR', 'Turkey'),
-                  countryFlags('TH', 'Thailand'),
-                  countryFlags('CH', 'Switzerland'),
-                  countryFlags('SE', 'Sweden'),
-                  countryFlags('SA', 'Saudi Arabia'),
-                  countryFlags('PL', 'Poland'),
-                  countryFlags('NZ', 'New Zealand'),
-                  countryFlags('MX', 'Mexico'),
-                  countryFlags('JP', 'Japan'),
-                  countryFlags('BR', 'Brazil'),
-                  countryFlags('AU', 'Australia'),
-                ])),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 10.0, top: 20.0),
-            child: Text('Change Password',
-                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-                left: 30.0, right: 30.0, top: 20.0, bottom: 30.0),
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width - 70,
-              child: MaterialButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/changePassword');
-                  },
-                  color: Theme.of(context).accentColor,
-                  splashColor: Theme.of(context).primaryColor,
-                  elevation: 20,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Text(
-                      'Change Password',
-                      style: TextStyle(color: Colors.white, fontSize: 20.0),
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Text(
+                              'Change Password',
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 20.0),
+                            ),
+                          )),
                     ),
-                  )),
-            ),
-          ),
-        ],
-      ),
-    );
+                  ),
+                ],
+              );
+            }));
   }
 }
