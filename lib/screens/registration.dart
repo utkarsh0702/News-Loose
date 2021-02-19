@@ -59,7 +59,7 @@ class _RegPageState extends State<RegPage> {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(
+                    children: List.generate( 
                       items.length, 
                       (index) => dotStyle(index),
                       ),
