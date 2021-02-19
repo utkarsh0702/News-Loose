@@ -71,28 +71,45 @@ class _SplashState extends State<Splash> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-          child: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'NEWS ',
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30.0,
-                  ),
-                  ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+            height: 100.0,
+            width: 100.0,
+            margin: EdgeInsets.all(20.0),
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border:
+                    Border.all(color: Theme.of(context).accentColor, width: 1),
+                image: DecorationImage(
+                  image: AssetImage('assets/images/logo.png'),
+                  fit: BoxFit.cover,
+                )),
+                ),
+              // Image.asset('assets/images/logo.jpg'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
                   Text(
-                  'LOOSE',
-                  style: TextStyle(
-                    color: Theme.of(context).accentColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30.0,
-                  ),
-                  )
-              ],
-            )
+                    'NEWS ',
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30.0,
+                    ),
+                    ),
+                    Text(
+                    'LOOSE',
+                    style: TextStyle(
+                      color: Theme.of(context).accentColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30.0,
+                    ),
+                    )
+                ],
+              ),
+            ],
           ),
         ),
     );

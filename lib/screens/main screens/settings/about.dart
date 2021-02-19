@@ -16,13 +16,13 @@ class _AboutState extends State<About> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                // Card(
-                //   elevation: 20,
-                //   child: Padding(
-                //     padding: const EdgeInsets.all(8.0),
-                //     child: Image.asset('assets/images/logo1.png'),
-                //   ),
-                //   ),
+                Card(
+                  elevation: 20,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.asset('assets/images/logo.png'),
+                  ),
+                  ),
   //------------------------------------TITLE-------------------------------//
                 SizedBox(height: 20.0,),
                 Row(

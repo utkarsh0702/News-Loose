@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
+import 'package:toast/toast.dart';
 
 class ChangePassword extends StatefulWidget {
   @override
@@ -156,11 +157,17 @@ class _ChangePasswordState extends State<ChangePassword> {
             email: emailtextController.text, password: passtextController.text);
         await user.reauthenticateWithCredential(credential);
         await user.updatePassword(newtextController.text);
-        Scaffold.of(context).showSnackBar(
-            SnackBar(content: Text('Password Updated Successfully')));
+        Toast.show("Password Updated Sucessfully", context,
+              duration: Toast.LENGTH_SHORT, gravity: Toast.CENTER);
+        emailtextController.text='';
+        passtextController.text='';
+        newtextController.text='';
       } catch (e) {
         print("Error: $e");
         _showDialog('Error', 'Facing problem with updating password..');
+        emailtextController.text='';
+        passtextController.text='';
+        newtextController.text='';
       }
     }
 

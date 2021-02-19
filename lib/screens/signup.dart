@@ -341,16 +341,16 @@ class _SignUpState extends State<SignUp> {
                     );
                   },
                   child: Text(
-                    'Terms & Conditions',
+                    'Terms & Conditions ',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.yellow[900],
+                      color: Colors.white,
                   fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
                 Text(
-                  'and',
+                  'and ',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -369,7 +369,7 @@ class _SignUpState extends State<SignUp> {
                     'Private Policy',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.yellow[900],
+                      color: Colors.white,
                   fontWeight: FontWeight.bold,
                     ),
                   ),

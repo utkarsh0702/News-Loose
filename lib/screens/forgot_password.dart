@@ -65,6 +65,7 @@ class _ForgotState extends State<Forgot> {
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
     );
+    emailtextController.text='';
     Timer(Duration(seconds: 7), finished);
     } catch (e) {
       print('Error is: $e');
