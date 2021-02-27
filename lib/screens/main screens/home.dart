@@ -3,7 +3,6 @@ import 'package:NewsLoose/helper/news.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
-import 'category/category_page.dart';
 import 'package:flutter/material.dart';
 import 'article_page.dart';
 
@@ -13,71 +12,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<String> images = [
-    'assets/images/business.png',
-    'assets/images/entertainment.jpg',
-    'assets/images/general.jpg',
-    'assets/images/health.jpg',
-    'assets/images/science.jpg',
-    'assets/images/sports.jpg',
-    'assets/images/technology.jpg'
-  ];
-
-  List<String> names = [
-    'Business',
-    'Entertainment',
-    'General',
-    'Health',
-    'Science',
-    'Sports',
-    'Technology'
-  ];
-
-//------------------------------------ Horizontal Category Tile Slider ---------------------------
-  Widget categoryContainer(String image, String name) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => CategoryPage(
-                      category: name.toLowerCase(),
-                    )));
-      },
-      child: Padding(
-        padding: const EdgeInsets.only(
-            top: 10.0, bottom: 10.0, left: 5.0, right: 5.0),
-        child: Card(
-          elevation: 10.0,
-          color: Colors.transparent,
-          child: Container(
-            height: 60.0,
-            width: 120.0,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                image: DecorationImage(
-                    image: AssetImage(image),
-                    fit: BoxFit.fill,
-                    colorFilter:
-                        ColorFilter.mode(Colors.black38, BlendMode.darken))),
-            child: Align(
-              alignment: Alignment.center,
-              child: FittedBox(
-                fit: BoxFit.fitWidth,
-                child: Text(
-                  name,
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   @override
   void initState() {
     super.initState();
@@ -95,6 +29,14 @@ class _HomePageState extends State<HomePage> {
     if (article.isEmpty) {
       _showDialog('Error',
           'Seems like some kind of error. Press the button to fix it...');
+    }
+    //------------------------ handling image exception-----------//
+    for (int index = 0; index < article.length; index++) {
+      try {
+        Image.network(article[index].url_to_image);
+      } on Exception catch (_) {
+        article.remove(index);
+      }
     }
     if (mounted) {
       setState(() {
@@ -192,12 +134,6 @@ class _HomePageState extends State<HomePage> {
                         itemCount: article.length,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
-                          //------------------------ handling image exception-----------//
-                          try {
-                            Image.network(article[index].url_to_image);
-                          } on Exception catch (_) {
-                            article.remove(index);
-                          }
                           return BlogTile(
                             imageUrl: article[index].url_to_image,
                             title: article[index].title,

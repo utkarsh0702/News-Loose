@@ -39,7 +39,6 @@ class _SettingsState extends State<Settings> {
   }
 
   updateImage(int number) async {
-    final FirebaseUser user = await auth.currentUser();
     Firestore.instance
         .collection('User Data')
         .document(user.uid)
@@ -47,7 +46,6 @@ class _SettingsState extends State<Settings> {
   }
 
   updateName(String name) async {
-    final FirebaseUser user = await auth.currentUser();
     Firestore.instance
         .collection('User Data')
         .document(user.uid)
@@ -55,7 +53,6 @@ class _SettingsState extends State<Settings> {
   }
 
   updateCountry(String country) async {
-    final FirebaseUser user = await auth.currentUser();
     Firestore.instance
         .collection('User Data')
         .document(user.uid)
@@ -143,14 +140,18 @@ class _SettingsState extends State<Settings> {
           ),
           elevation: 0.0,
         ),
-        body: _loading == true
-            ? Container()
+        body: _loading
+            ? Center(
+              child: Container(
+                child: CircularProgressIndicator()
+                ))
             : StreamBuilder(
                 stream: Firestore.instance
                     .collection('User Data')
                     .document(user.uid)
                     .snapshots(),
                 builder: (context, snapshot) {
+                  if(snapshot.hasData){
                   return ListView(
                     children: [
                       Padding(
@@ -304,16 +305,9 @@ class _SettingsState extends State<Settings> {
                               countryFlags('IN', 'India'),
                               countryFlags('US', 'United States of America'),
                               countryFlags('GB', 'United Kingdom'),
-                              countryFlags('AE', 'United Arab Emirates'),
-                              countryFlags('UA', 'Ukraine'),
                               countryFlags('TR', 'Turkey'),
-                              countryFlags('TH', 'Thailand'),
                               countryFlags('CH', 'Switzerland'),
-                              countryFlags('SE', 'Sweden'),
-                              countryFlags('SA', 'Saudi Arabia'),
-                              countryFlags('PL', 'Poland'),
                               countryFlags('NZ', 'New Zealand'),
-                              countryFlags('MX', 'Mexico'),
                               countryFlags('JP', 'Japan'),
                               countryFlags('BR', 'Brazil'),
                               countryFlags('AU', 'Australia'),
@@ -350,7 +344,8 @@ class _SettingsState extends State<Settings> {
                         ),
                       ),
                     ],
-                  );
+                  );}
+                  return Center(child: CircularProgressIndicator(),);
                 }));
   }
 }

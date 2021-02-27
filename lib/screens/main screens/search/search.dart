@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'search_page.dart';
 
 class Search extends StatefulWidget {
