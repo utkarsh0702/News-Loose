@@ -31,9 +31,11 @@ getCategoryNews() async{
   if(article.isEmpty){
       _showDialog('Error', 'Seems like some kind of error. Press the button to fix it...');
     }
+    if (mounted){
   setState(() {
     _loading = false;
   });
+}
 }
 
  _showDialog(title, text){

@@ -252,29 +252,32 @@ class _LogInState extends State<LogIn> {
                   formFields('Email', Icons.email, false),
                   formFields('Password', Icons.lock, true),
                   Row(
-                children: [
-                  Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.only(right:30.0, top:10.0, bottom:10.0),
-                    child: GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, '/forgot');
-                        },
-                        child: FittedBox(
-                          fit: BoxFit.fitWidth,
-                          child: Text(
-                            "Forgot Password",
-                            style: TextStyle(
-                                color: Colors.deepPurple[800], fontWeight: FontWeight.bold),
+                    children: [
+                      Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            right: 30.0, top: 10.0, bottom: 10.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/forgot');
+                          },
+                          child: FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: Text(
+                              "Forgot Password",
+                              style: TextStyle(
+                                  color: Colors.deepPurple[800],
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
                         ),
                       ),
+                    ],
                   ),
-                ],
-              ),
-                  ErrorLine(
-                    errors: errors,
-                  ),
+                  if (errors.isNotEmpty)
+                    ErrorLine(
+                      errors: errors,
+                    ),
                   Padding(
                     padding: const EdgeInsets.only(top: 20.0),
                     child: SizedBox(
@@ -350,23 +353,23 @@ class ErrorLine extends StatelessWidget {
   Widget errorLine(String text) {
     return Padding(
       padding: const EdgeInsets.only(top: 5.0, left: 30.0, right: 30.0),
-      child: Expanded(
-        child: Row(
-          children: [
-            Icon(
-              Icons.error,
-              size: 18.0,
-              color: Colors.red[900],
-            ),
-            Padding(
+      child: Row(
+        children: [
+          Icon(
+            Icons.error,
+            size: 18.0,
+            color: Colors.red[900],
+          ),
+          Expanded(
+            child: Padding(
               padding: const EdgeInsets.only(left: 5.0),
               child: Text(
                 text,
                 style: TextStyle(color: Colors.red[900]),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

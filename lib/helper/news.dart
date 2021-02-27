@@ -102,23 +102,23 @@ class SearchNews {
   List<Article> news = [];
 
   Future<void> getSearchNews(String query, String fromdate, String todate,
-      String source, String sort) async {
+      String source) async {
     String url = '';
     if (query.isEmpty) {
       if (source == 'all') {
         url =
-            'https://newsapi.org/v2/everything?from=$fromdate&to=$todate&sortBy=$sort&apiKey=9c32b0a65fd64b97bc82924563afd873';
+            'https://newsapi.org/v2/everything?from=$fromdate&to=$todate&apiKey=9c32b0a65fd64b97bc82924563afd873';
       } else {
         url =
-            'https://newsapi.org/v2/everything?from=$fromdate&to=$todate&sources=$source&sortBy=$sort&apiKey=9c32b0a65fd64b97bc82924563afd873';
+            'https://newsapi.org/v2/everything?from=$fromdate&to=$todate&sources=$source&apiKey=9c32b0a65fd64b97bc82924563afd873';
       }
     } else {
       if (source == 'all') {
         url =
-            'https://newsapi.org/v2/everything?q=$query&from=$fromdate&to=$todate&sortBy=$sort&apiKey=9c32b0a65fd64b97bc82924563afd873';
+            'https://newsapi.org/v2/everything?q=$query&from=$fromdate&to=$todate&apiKey=9c32b0a65fd64b97bc82924563afd873';
       } else {
         url =
-            'https://newsapi.org/v2/everything?q=$query&from=$fromdate&to=$todate&sources=$source&sortBy=$sort&apiKey=9c32b0a65fd64b97bc82924563afd873';
+            'https://newsapi.org/v2/everything?q=$query&from=$fromdate&to=$todate&sources=$source&apiKey=9c32b0a65fd64b97bc82924563afd873';
       }
     }
 

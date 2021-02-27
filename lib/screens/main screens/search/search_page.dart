@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:NewsLoose/helper/news.dart';
 
 class SearchPage extends StatefulWidget {
-  final String query, source, sort, fromdate, todate;
-  SearchPage({this.query, this.fromdate, this.todate, this.source, this.sort});
+  final String query, source, fromdate, todate;
+  SearchPage({this.query, this.fromdate, this.todate, this.source});
 
   @override
   _SearchPageState createState() => _SearchPageState();
@@ -23,8 +23,7 @@ class _SearchPageState extends State<SearchPage> {
 
   getSearchNews() async {
     SearchNews news = SearchNews();
-    await news.getSearchNews(widget.query, widget.fromdate, widget.todate,
-        widget.source, widget.sort);
+    await news.getSearchNews(widget.query, widget.fromdate, widget.todate, widget.source);
     article = news.news;
     if (mounted) {
       setState(() {

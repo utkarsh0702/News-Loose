@@ -42,70 +42,6 @@ class _SearchState extends State<Search> {
       });
   }
 
-  //--------------------Available sort by btn values----------------------------//
-  String sortVal = "publishedAt";
-  bool isbt1 = false;
-  bool isbt2 = false;
-  bool isbt3 = false;
-
-  Widget availableSort(String text, {String btn}) {
-    bool isSelected = false;
-    if (btn == "bt1") {
-      isSelected = isbt1;
-    } else if (btn == "bt2") {
-      isSelected = isbt2;
-    } else if (btn == "bt3") {
-      isSelected = isbt3;
-    }
-
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(3.0),
-        child: MaterialButton(
-            minWidth: 1.0,
-            color: isSelected ? Theme.of(context).accentColor : Colors.white,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
-                side: BorderSide(
-                    style: !isSelected ? BorderStyle.solid : BorderStyle.none,
-                    color: Theme.of(context).accentColor)),
-            child: Text(
-              text,
-              style: TextStyle(
-                fontSize: 13,
-                color:
-                    isSelected ? Colors.white : Theme.of(context).accentColor,
-              ),
-            ),
-            onPressed: () {
-              setState(() {
-                if (btn == "bt1") {
-                  isbt1 = !isSelected;
-                  sortVal = 'relevancy';
-                  if (isSelected == false) {
-                    isbt2 = isSelected;
-                    isbt3 = isSelected;
-                  }
-                } else if (btn == "bt2") {
-                  isbt2 = !isSelected;
-                  sortVal = 'popularity';
-                  if (isSelected == false) {
-                    isbt1 = isSelected;
-                    isbt3 = isSelected;
-                  }
-                } else if (btn == "bt3") {
-                  isbt3 = !isSelected;
-                  sortVal = 'publishedAt';
-                  if (isSelected == false) {
-                    isbt2 = isSelected;
-                    isbt1 = isSelected;
-                  }
-                }
-              });
-            }),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -249,29 +185,9 @@ class _SearchState extends State<Search> {
                   ],
                 ),
               ),
-              //---------------------------- Sort By Buttons ------------------//
-              Padding(
-                padding:
-                    const EdgeInsets.only(left: 15.0, top: 10.0, bottom: 20.0),
-                child: Column(children: [
-                  Row(
-                    children: [
-                      Icon(LineAwesomeIcons.filter),
-                      Text("Sort By : ",
-                          style:
-                              TextStyle(fontSize: 20.0, fontFamily: 'Pacifico')),
-                    ],
-                  ),
-                  Row(children: [
-                    availableSort('Relevancy', btn: 'bt1'),
-                    availableSort('Popularity', btn: 'bt2'),
-                    availableSort('Published At', btn: 'bt3'),
-                  ]),
-                ]),
-              ),
               Padding(
                 padding: const EdgeInsets.only(
-                    top: 10.0, bottom: 20.0, left: 40.0, right: 40.0),
+                    top: 30.0, bottom: 20.0, left: 40.0, right: 40.0),
                 child: MaterialButton(
                     onPressed: () {
                       Navigator.push(
@@ -282,7 +198,6 @@ class _SearchState extends State<Search> {
                                     fromdate : "${fromselectedDate.toLocal()}".split(' ')[0],
                                     todate : "${toselectedDate.toLocal()}".split(' ')[0],
                                     source : currentCon.toLowerCase().replaceAll(" ", "-"),
-                                    sort : sortVal
                                   )));
                     },
                     color: Theme.of(context).primaryColor,

@@ -396,23 +396,23 @@ class ErrorLine extends StatelessWidget {
   Widget errorLine(String text) {
     return Padding(
       padding: const EdgeInsets.only(top: 5.0, left: 30.0, right: 30.0),
-      child: Expanded(
         child: Row(
           children: [
             Icon(
               Icons.error,
               size: 18.0,
-              color: Colors.red,
+              color: Colors.red[900],
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 5.0),
-              child: Text(
-                text,
-                style: TextStyle(color: Colors.red),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5.0),
+                child: Text(
+                  text,
+                  style: TextStyle(color: Colors.red[900]),
+                ),
               ),
             ),
           ],
-        ),
       ),
     );
   }
