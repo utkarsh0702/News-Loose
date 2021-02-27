@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'home.dart';
 import 'category/categories.dart';
-import 'owner.dart';
+import 'owner/owner.dart';
 import 'profile.dart';
 import 'search/search.dart';
 
