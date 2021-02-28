@@ -51,6 +51,9 @@ class _SplashState extends State<Splash> {
     showDialog(
       context: context,
       builder: (context){
+        Future.delayed(Duration(seconds: 5),(){
+          Navigator.of(context).pop(true);
+        });
         return AlertDialog(
           title: Text(title),
           content: Text(text),

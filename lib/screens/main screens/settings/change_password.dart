@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
@@ -150,24 +151,29 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   @override
   Widget build(BuildContext context) {
+    goBack(){
+      Navigator.pop(context);
+    }
+
     Future<void> _change() async {
       try {
         final FirebaseUser user = await auth.currentUser();
         AuthCredential credential = EmailAuthProvider.getCredential(
             email: emailtextController.text, password: passtextController.text);
+        print('Email: ${emailtextController.text} , Password: ${passtextController.text}');
+        print('Credentials: $credential');
+        print('User: $user');
         await user.reauthenticateWithCredential(credential);
         await user.updatePassword(newtextController.text);
         Toast.show("Password Updated Sucessfully", context,
-              duration: Toast.LENGTH_SHORT, gravity: Toast.CENTER);
-        emailtextController.text='';
-        passtextController.text='';
-        newtextController.text='';
+            duration: Toast.LENGTH_SHORT, gravity: Toast.CENTER);
+        Timer(Duration(seconds: 2), goBack);
       } catch (e) {
         print("Error: $e");
         _showDialog('Error', 'Facing problem with updating password..');
-        emailtextController.text='';
-        passtextController.text='';
-        newtextController.text='';
+          emailtextController.text = '';
+          passtextController.text = '';
+          newtextController.text = '';
       }
     }
 
