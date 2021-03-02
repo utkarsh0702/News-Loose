@@ -212,130 +212,132 @@ class _LogInState extends State<LogIn> {
               ],
               tileMode: TileMode.repeated),
         ),
-        child: ListView(children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Log In',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25.0,
-                    letterSpacing: .5,
-                    fontWeight: FontWeight.w400,
-                    fontFamily: 'Langar',
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(30.0),
-              child: Text(
-                'Welcome Back',
-                style: TextStyle(
-                  fontSize: 40.0,
-                  fontWeight: FontWeight.w300,
-                  fontFamily: 'Pacifico',
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
-          Form(
-              key: _formKey,
-              child: Column(
+        child: Expanded(
+          child: ListView(children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  formFields('Email', Icons.email, false),
-                  formFields('Password', Icons.lock, true),
-                  Row(
-                    children: [
-                      Spacer(),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            right: 30.0, top: 10.0, bottom: 10.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/forgot');
-                          },
-                          child: FittedBox(
-                            fit: BoxFit.fitWidth,
-                            child: Text(
-                              "Forgot Password",
-                              style: TextStyle(
-                                  color: Colors.deepPurple[800],
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  if (errors.isNotEmpty)
-                    ErrorLine(
-                      errors: errors,
-                    ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width - 70,
-                      child: MaterialButton(
-                          onPressed: () async {
-                            if (_formKey.currentState.validate() &&
-                                errors.isEmpty) {
-                              _loginInWithEmailAndPassword();
-                            }
-                          },
-                          color: Colors.transparent,
-                          shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  color: Theme.of(context).accentColor,
-                                  width: 3.0),
-                              borderRadius: BorderRadius.circular(20)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              'LogIn',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 25.0,
-                                  fontFamily: 'Pacifico'),
-                            ),
-                          )),
+                  Text(
+                    'Log In',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 25.0,
+                      letterSpacing: .5,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: 'Langar',
                     ),
                   ),
                 ],
-              )),
-          Padding(
-            padding: const EdgeInsets.only(top: 40.0, left: 20.0, right: 20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Don't have an Account ? ",
-                    style: TextStyle(
-                        fontSize: 13.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue[900])),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/signup');
-                  },
-                  child: FittedBox(
-                    fit: BoxFit.fitWidth,
-                    child: Text(
-                      "Create Account ",
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                )
-              ],
+              ),
             ),
-          )
-        ]),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: Text(
+                  'Welcome Back',
+                  style: TextStyle(
+                    fontSize: 40.0,
+                    fontWeight: FontWeight.w300,
+                    fontFamily: 'Pacifico',
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    formFields('Email', Icons.email, false),
+                    formFields('Password', Icons.lock, true),
+                    Row(
+                      children: [
+                        Spacer(),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              right: 30.0, top: 10.0, bottom: 10.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, '/forgot');
+                            },
+                            child: FittedBox(
+                              fit: BoxFit.fitWidth,
+                              child: Text(
+                                "Forgot Password",
+                                style: TextStyle(
+                                    color: Colors.deepPurple[800],
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    if (errors.isNotEmpty)
+                      ErrorLine(
+                        errors: errors,
+                      ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20.0),
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width - 70,
+                        child: MaterialButton(
+                            onPressed: () async {
+                              if (_formKey.currentState.validate() &&
+                                  errors.isEmpty) {
+                                _loginInWithEmailAndPassword();
+                              }
+                            },
+                            color: Colors.transparent,
+                            shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    color: Theme.of(context).accentColor,
+                                    width: 3.0),
+                                borderRadius: BorderRadius.circular(20)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text(
+                                'LogIn',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 25.0,
+                                    fontFamily: 'Pacifico'),
+                              ),
+                            )),
+                      ),
+                    ),
+                  ],
+                )),
+            Padding(
+              padding: const EdgeInsets.only(top: 40.0, left: 20.0, right: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Don't have an Account ? ",
+                      style: TextStyle(
+                          fontSize: 13.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue[900])),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/signup');
+                    },
+                    child: FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: Text(
+                        "Create Account ",
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            )
+          ]),
+        ),
       ),
     ));
   }

@@ -150,75 +150,77 @@ class _ProfileState extends State<Profile> {
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          return ListView(
-                            children: [
-                              Container(
-                                height: 120.0,
-                                width: 120.0,
-                                margin: EdgeInsets.only(top: 20),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                        color: Theme.of(context).accentColor,
-                                        width: 5),
-                                    image: DecorationImage(
-                                      image: AssetImage(imageLookUp(
-                                          snapshot.data['Image Number'])),
-                                      fit: BoxFit.contain,
-                                    )),
-                              ),
-                              Container(
-                                  height: 350.0,
+                          return Expanded(
+                            child: ListView(
+                              children: [
+                                Container(
+                                  height: 120.0,
                                   width: 120.0,
-                                  margin: EdgeInsets.only(
-                                      top: 40, left: 30, right: 30),
+                                  margin: EdgeInsets.only(top: 20),
                                   decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20.0)),
-                                    gradient: LinearGradient(
-                                        begin: Alignment.topLeft,
-                                        end: Alignment.bottomRight,
-                                        colors: [
-                                          Colors.yellow[400],
-                                          Theme.of(context).accentColor,
-                                        ],
-                                        tileMode: TileMode.repeated),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Expanded(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(snapshot.data['Name'],
-                                              style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
-                                                  fontFamily: 'Pacifico',
-                                                  fontSize: 23.0)),
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                          color: Theme.of(context).accentColor,
+                                          width: 5),
+                                      image: DecorationImage(
+                                        image: AssetImage(imageLookUp(
+                                            snapshot.data['Image Number'])),
+                                        fit: BoxFit.contain,
+                                      )),
+                                ),
+                                Container(
+                                    height: 350.0,
+                                    width: 120.0,
+                                    margin: EdgeInsets.only(
+                                        top: 40, left: 30, right: 30),
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(20.0)),
+                                      gradient: LinearGradient(
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                          colors: [
+                                            Colors.yellow[400],
+                                            Theme.of(context).accentColor,
+                                          ],
+                                          tileMode: TileMode.repeated),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(snapshot.data['Name'],
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .primaryColor,
+                                                    fontFamily: 'Pacifico',
+                                                    fontSize: 23.0)),
+                                          ),
                                         ),
-                                      ),
-                                      Expanded(
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 8.0,
-                                              right: 8.0,
-                                              bottom: 8.0),
-                                          child: Text(snapshot.data['Email Id'],
-                                              style: TextStyle(
-                                                  color: Colors.blue[800],
-                                                  fontFamily: 'Langar',
-                                                  fontSize: 15.0)),
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0,
+                                                right: 8.0,
+                                                bottom: 8.0),
+                                            child: Text(snapshot.data['Email Id'],
+                                                style: TextStyle(
+                                                    color: Colors.blue[800],
+                                                    fontFamily: 'Langar',
+                                                    fontSize: 15.0)),
+                                          ),
                                         ),
-                                      ),
-                                      items(Icons.settings, 'Settings',
-                                          '/settings'),
-                                      items(Icons.insert_drive_file_outlined,
-                                          'License', 'license'),
-                                      items(Icons.home, 'About', '/about'),
-                                      items(Icons.logout, 'Logout', 'logout'),
-                                    ],
-                                  )),
-                            ],
+                                        items(Icons.settings, 'Settings',
+                                            '/settings'),
+                                        items(Icons.insert_drive_file_outlined,
+                                            'License', 'license'),
+                                        items(Icons.home, 'About', '/about'),
+                                        items(Icons.logout, 'Logout', 'logout'),
+                                      ],
+                                    )),
+                              ],
+                            ),
                           );
                         }
                         return Center(

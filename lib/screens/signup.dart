@@ -230,154 +230,156 @@ class _SignUpState extends State<SignUp> {
               ],
               tileMode: TileMode.repeated),
         ),
-        child: ListView(children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0),
-                child: Text(
-                  'SignUp',
-                  style: TextStyle(
-                    fontSize: 25.0,
-                    letterSpacing: .5,
-                    fontWeight: FontWeight.w400,
-                    fontFamily: 'Langar',
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Text(
-                'Register Account',
-                style: TextStyle(
-                    fontSize: 40.0,
-                    fontWeight: FontWeight.w300,
-                    fontFamily: 'Pacifico',
-                    color: Colors.white),
-              ),
-            ),
-          ),
-          Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  formFields(
-                    'Name',
-                    Icons.person,
-                    0,
-                  ),
-                  formFields(
-                    'Email',
-                    Icons.email,
-                    1,
-                  ),
-                  formFields(
-                    'Password',
-                    Icons.lock,
-                    2,
-                  ),
-                  ErrorLine(
-                    errors: errors,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width - 70,
-                      child: MaterialButton(
-                          onPressed: () async {
-                            if (_formKey.currentState.validate() &&
-                                errors.isEmpty) {
-                              _register();
-                            }
-                          },
-                          color: Colors.transparent,
-                          shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  color: Theme.of(context).accentColor,
-                                  width: 3.0),
-                              borderRadius: BorderRadius.circular(20)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              'Create Account',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 25.0,
-                                  fontFamily: 'Pacifico'),
-                            ),
-                          )),
-                    ),
-                  ),
-                ],
-              )),
-          SizedBox(
-            height: 30.0,
-          ),
-          Padding(
-            padding:
-                const EdgeInsets.only(bottom: 20.0, right: 20.0, left: 20.0),
-            child: Wrap(
-              alignment: WrapAlignment.center,
+        child: Expanded(
+          child: ListView(children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text(
-                  'By clicking you confirm that you agree with our',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                fontWeight: FontWeight.bold,
-                  ),
-                ),
-                GestureDetector(
-                  onTap: (){
-                    showDialog(
-                      context: context,
-                      builder: (context){
-                        return Policy(mdFileName: 'terms&conditions.md',);
-                      }
-                    );
-                  },
+                Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
                   child: Text(
-                    'Terms & Conditions ',
-                    textAlign: TextAlign.center,
+                    'SignUp',
                     style: TextStyle(
+                      fontSize: 25.0,
+                      letterSpacing: .5,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: 'Langar',
                       color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Text(
-                  'and ',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                fontWeight: FontWeight.bold,
-                  ),
-                ),
-                GestureDetector(
-                  onTap: (){
-                    showDialog(
-                      context: context,
-                      builder: (context){
-                        return Policy(mdFileName: 'privacypolicy.md',);
-                      }
-                    );
-                  },
-                  child: Text(
-                    'Private Policy',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                  fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
               ],
             ),
-          )
-        ]),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(
+                  'Register Account',
+                  style: TextStyle(
+                      fontSize: 40.0,
+                      fontWeight: FontWeight.w300,
+                      fontFamily: 'Pacifico',
+                      color: Colors.white),
+                ),
+              ),
+            ),
+            Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    formFields(
+                      'Name',
+                      Icons.person,
+                      0,
+                    ),
+                    formFields(
+                      'Email',
+                      Icons.email,
+                      1,
+                    ),
+                    formFields(
+                      'Password',
+                      Icons.lock,
+                      2,
+                    ),
+                    ErrorLine(
+                      errors: errors,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20.0),
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width - 70,
+                        child: MaterialButton(
+                            onPressed: () async {
+                              if (_formKey.currentState.validate() &&
+                                  errors.isEmpty) {
+                                _register();
+                              }
+                            },
+                            color: Colors.transparent,
+                            shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    color: Theme.of(context).accentColor,
+                                    width: 3.0),
+                                borderRadius: BorderRadius.circular(20)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text(
+                                'Create Account',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 25.0,
+                                    fontFamily: 'Pacifico'),
+                              ),
+                            )),
+                      ),
+                    ),
+                  ],
+                )),
+            SizedBox(
+              height: 30.0,
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.only(bottom: 20.0, right: 20.0, left: 20.0),
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                children: [
+                  Text(
+                    'By clicking you confirm that you agree with our',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                      showDialog(
+                        context: context,
+                        builder: (context){
+                          return Policy(mdFileName: 'terms&conditions.md',);
+                        }
+                      );
+                    },
+                    child: Text(
+                      'Terms & Conditions ',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    'and ',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                      showDialog(
+                        context: context,
+                        builder: (context){
+                          return Policy(mdFileName: 'privacypolicy.md',);
+                        }
+                      );
+                    },
+                    child: Text(
+                      'Private Policy',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ]),
+        ),
       ),
     ));
   }
